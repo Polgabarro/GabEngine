@@ -4,7 +4,9 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-import java.lang.RuntimeException;import java.lang.String;import java.nio.ByteBuffer;
+import com.pol.graphics.Shader;
+
+import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
@@ -40,7 +42,6 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         vertexBuffer = bb.asFloatBuffer();
         vertexBuffer.put(squareCoords);
         vertexBuffer.position(0);
-
     }
 
     public void onDrawFrame(GL10 unused) {

@@ -13,6 +13,9 @@ public class Entity {
     private float x, y;
     private ArrayList<Entity> entities;
 
+    /**
+     * CONSTRUCTORS
+     */
     public Entity() {
         entities = new ArrayList<>();
     }
@@ -26,6 +29,7 @@ public class Entity {
     /**
      * PUBLIC METHODS
      */
+
     /**
      * Get the position
      *
@@ -91,9 +95,15 @@ public class Entity {
         entity.removeChild(entity);
     }
 
-    public void draw() {
+
+    public void update() {
 
     }
+
+    public void render() {
+
+    }
+
     /**
      * PRIVATE METHODS
      */
