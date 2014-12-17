@@ -96,12 +96,18 @@ public class Entity {
     }
 
 
-    public void update() {
-
+    protected void update() {
+        int length = entities.size();
+        for (int i=0;i<length;i++){
+            entities.get(i).update();
+        }
     }
 
     public void render() {
-
+        int length = entities.size();
+        for (int i=0;i<length;i++){
+            entities.get(i).render();
+        }
     }
 
     /**

@@ -1,14 +1,11 @@
-package com.pol.gabengine;
+package com.pol.engine;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-import com.pol.graphics.Shader;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
+import com.pol.entities.Scene;
+import com.pol.gabengine.BaseGabGame;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -17,56 +14,34 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by Pol Gabarró<polgabarr@gmail.com> on 03/12/14.
  */
-public class MyRenderer implements GLSurfaceView.Renderer {
-    int COORDS_PER_VERTEX = 3;
-    float squareCoords[] = {
-            -1.0f, -1.0f, 0.0f,
-            1.0f, -1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f
+public class Engine implements GLSurfaceView.Renderer {
 
-    };
-    FloatBuffer vertexBuffer;
-    private int mProgram;
-    private int mPositionHandle;
+    //Shape testshape;
+    public Scene scene = null;
+    public BaseGabGame context;
+
+    public Engine(BaseGabGame context){
+        this.context = context;
+    }
+
+
+
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        mProgram = Shader.LoadShaders("Simple_VS.glsl", "Simple_FS.glsl");
-
-
-        ByteBuffer bb = ByteBuffer.allocateDirect(
-                // (# of coordinate values * 4 bytes per float)
-                squareCoords.length * 4);
-        bb.order(ByteOrder.nativeOrder());
-        vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(squareCoords);
-        vertexBuffer.position(0);
-    }
+        context.onLoadResources();
+        context.onLoadEntities();
+        scene = context.onLoadScene();
+        }
 
     public void onDrawFrame(GL10 unused) {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glClearColor(0, 0, 1, 1);
-
-        GLES20.glUseProgram(mProgram);
-        mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
-
-        GLES20.glVertexAttribPointer(
-                mPositionHandle, COORDS_PER_VERTEX,
-                GLES20.GL_FLOAT, false,
-                COORDS_PER_VERTEX * 4, vertexBuffer);
-
-
-        checkGlError("");
-
-        // Draw the square
-
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
-        GLES20.glDisableVertexAttribArray(mPositionHandle);
-
-
+        if(scene!=null) {
+            scene.render();
+        }
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {

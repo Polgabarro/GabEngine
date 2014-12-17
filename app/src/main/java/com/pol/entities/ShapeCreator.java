@@ -1,5 +1,7 @@
 package com.pol.entities;
 
+import com.pol.graphics.Shader;
+
 /**
  * Created by Pol Gabarró<polgabarr@gmail.com> on 16/12/14.
  */
@@ -27,10 +29,10 @@ public class ShapeCreator {
                 0,1,2,2,3,0
         };
 
+        shape.setShader(Shader.LoadShaders("Simple_VS.glsl", "Simple_FS.glsl"));
 
-
-
-
+        shape.initVertex();
+        shape.initIndex();
 
         return shape;
     }
