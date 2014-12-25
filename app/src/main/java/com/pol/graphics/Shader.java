@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -15,22 +17,31 @@ import java.io.InputStreamReader;
  */
 public class Shader {
 
-    static Activity activity;
+    private static Activity activity;
+    private static Map<String, Integer> shaderMap = new HashMap<String, Integer>();
 
     public static void init(Activity activity) {
         Shader.activity = activity;
+        shaderMap.clear();
     }
 
     public static int LoadShaders(String VertexShader, String FragmentShader) {
-        int vertexShader = LoadShader(GLES20.GL_VERTEX_SHADER, VertexShader);
-        int fragmentShader = LoadShader(GLES20.GL_FRAGMENT_SHADER, FragmentShader);
 
-        int mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
-        GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
-        GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
-        GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
+        if (shaderMap.containsKey(VertexShader)) {
+            return shaderMap.get(VertexShader);
+        } else {
 
-        return mProgram;
+            int vertexShader = LoadShader(GLES20.GL_VERTEX_SHADER, VertexShader);
+            int fragmentShader = LoadShader(GLES20.GL_FRAGMENT_SHADER, FragmentShader);
+
+            int mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
+            GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
+            GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
+            GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
+
+            shaderMap.put(VertexShader, mProgram);
+            return mProgram;
+        }
 
     }
 
