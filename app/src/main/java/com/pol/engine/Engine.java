@@ -42,8 +42,21 @@ public class Engine implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 unused) {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        GLES20.glClearColor(0, 0, 1, 1);
+
         if (scene != null) {
+            /**
+             * INPUTS
+             */
+
+            /**
+             * UPDATE
+             */
+            scene.update();
+            /**
+             * RENDER
+             */
+            float[] color = scene.getBackground().getColor();
+            GLES20.glClearColor(color[0], color[1], color[2], 1);
             scene.render(camera.getmVPMatrix());
         }
     }

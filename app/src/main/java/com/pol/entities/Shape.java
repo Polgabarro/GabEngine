@@ -18,8 +18,8 @@ public class Shape extends Entity {
      * VARIABLES
      */
     private boolean containFigure;
-    protected float squareCords[];
-    protected short squareIndex[];
+    protected float shapeCords[];
+    protected short shapeIndex[];
     protected float color[] = {1f, 1f, 1f, 1f};
 
     private FloatBuffer vertexBuffer;
@@ -77,20 +77,20 @@ public class Shape extends Entity {
 
         ByteBuffer bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
-                squareCords.length * 4);
+                shapeCords.length * 4);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(squareCords);
+        vertexBuffer.put(shapeCords);
         vertexBuffer.position(0);
     }
 
     protected void initIndex() {
         ByteBuffer dlb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 2 bytes per short)
-                squareIndex.length * 2);
+                shapeIndex.length * 2);
         dlb.order(ByteOrder.nativeOrder());
         drawListBuffer = dlb.asShortBuffer();
-        drawListBuffer.put(squareIndex);
+        drawListBuffer.put(shapeIndex);
         drawListBuffer.position(0);
     }
 
@@ -119,7 +119,7 @@ public class Shape extends Entity {
 
         // Draw the square
         GLES20.glDrawElements(
-                GLES20.GL_TRIANGLES, squareIndex.length,
+                GLES20.GL_TRIANGLES, shapeIndex.length,
                 GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
         GLES20.glDisableVertexAttribArray(mPositionHandle);

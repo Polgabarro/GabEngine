@@ -13,19 +13,19 @@ public class Entity {
     /**
      * VARIABLES
      */
-    private float x, y;
+    private static int totalEntityCreated = 0;
+    private int id;
+
+
+    private float x = 0, y = 0;
     protected ArrayList<Entity> entities;
     private Entity parent = null;
 
     //MODEL MATRIX'S
     protected float[] mModelMatrix = new float[16];
-
     private float[] mScaleMatrix = new float[16];
-    private boolean scaleChanged = false;
     private float[] mTranslationMatrix = new float[16];
-    private boolean translationChanged = false;
     private float[] mRotationMatrix = new float[16];
-    private boolean rotationChanged = false;
 
     private boolean modelChanged = false;
 
@@ -34,20 +34,17 @@ public class Entity {
      * CONSTRUCTORS
      */
     public Entity() {
+        id = totalEntityCreated;
+        totalEntityCreated++;
         entities = new ArrayList<Entity>();
+        Matrix.setIdentityM(mTranslationMatrix, 0);
+        Matrix.setIdentityM(mScaleMatrix, 0);
+        Matrix.setIdentityM(mRotationMatrix, 0);
     }
 
     public Entity(float x, float y) {
         this();
-        this.x = x;
-        this.y = y;
-
-        Matrix.setIdentityM(mTranslationMatrix, 0);
-        setTranslation();
-
-        mModelMatrix = mTranslationMatrix;
-
-
+        setPosition(x, y);
     }
 
     /**
@@ -69,8 +66,10 @@ public class Entity {
      * @param x The position X
      */
     public void setX(float x) {
+
+        modelChanged = true;
+        setTranslation(x - this.x, 0);
         this.x = x;
-        translationChanged = true;
     }
 
     /**
@@ -88,8 +87,10 @@ public class Entity {
      * @param y The position X
      */
     public void setY(float y) {
+
+        modelChanged = true;
+        setTranslation(0, y - this.y);
         this.y = y;
-        translationChanged = true;
     }
 
     /**
@@ -99,9 +100,10 @@ public class Entity {
      * @param y The position y
      */
     public void setPosition(float x, float y) {
+        modelChanged = true;
+        setTranslation(x - this.x, y - this.y);
         this.x = x;
         this.y = y;
-        translationChanged = true;
     }
 
     /**
@@ -129,11 +131,12 @@ public class Entity {
      * @param entity
      */
     public void removeChild(Entity entity) {
+        entity.parent = null;
         entity.removeChild(entity);
     }
 
 
-    protected void update() {
+    public void update() {
 
         makeModelTransformations();
 
@@ -159,29 +162,26 @@ public class Entity {
      */
     private void makeModelTransformations() {
 
-        if (translationChanged) {
-            setTranslation();
-        }
-        if (scaleChanged) {
-            //TODO scale
-        }
-        if (rotationChanged) {
-            //TODO rotation
-        }
+        if (modelChanged || parentChanged()) {
+            Log.i("ENTER", "makeMODELENTRING ID:" + id);
+            float[] temp = new float[16];
+            Matrix.multiplyMM(temp, 0, mRotationMatrix, 0, mScaleMatrix, 0);
+            Matrix.multiplyMM(mModelMatrix, 0, mTranslationMatrix, 0, temp, 0);
 
-        //Matrix.multiplyMM(mModelMatrix,0,);
-        if (translationChanged || scaleChanged || rotationChanged) {
-            mModelMatrix = mTranslationMatrix;
-            modelChanged = true;
+            if (parent != null)
+                Matrix.multiplyMM(mModelMatrix, 0, mModelMatrix, 0, parent.mModelMatrix, 0);
+
         }
-        /*if(parent!=null){
-                Matrix.multiplyMM(mModelMatrix,0,parent.mModelMatrix,0,mModelMatrix,0);
-        }*/
-
-
     }
 
-    private void setTranslation() {
+    private Boolean parentChanged() {
+        if (parent != null) {
+            return parent.modelChanged;
+        }
+        return false;
+    }
+
+    private void setTranslation(float x, float y) {
         Matrix.translateM(mTranslationMatrix, 0, x, y, 0);
     }
 
