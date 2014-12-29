@@ -7,6 +7,7 @@ import android.util.Log;
 import com.pol.camera.Camera;
 import com.pol.entities.Scene;
 import com.pol.gabengine.BaseGabGame;
+import com.pol.graphics.FPSCounter;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -17,10 +18,16 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class Engine implements GLSurfaceView.Renderer {
 
-    //Shape testshape;
+
     public Scene scene = null;
     public BaseGabGame context;
     private Camera camera = null;
+
+    private float elapsedTime=1L/60L;
+    private long lastTime =0L;
+    private FPSCounter fpsCounter = null;
+
+
 
     public Engine(BaseGabGame context) {
         this.context = context;
@@ -37,11 +44,15 @@ public class Engine implements GLSurfaceView.Renderer {
         context.onLoadResources();
         context.onLoadEntities();
         scene = context.onLoadScene();
+
     }
 
     public void onDrawFrame(GL10 unused) {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        lastTime = System.currentTimeMillis();
+
+
 
         if (scene != null) {
             /**
@@ -51,7 +62,7 @@ public class Engine implements GLSurfaceView.Renderer {
             /**
              * UPDATE
              */
-            scene.update();
+            scene.update(elapsedTime);
             /**
              * RENDER
              */
@@ -59,6 +70,13 @@ public class Engine implements GLSurfaceView.Renderer {
             GLES20.glClearColor(color[0], color[1], color[2], 1);
             scene.render(camera.getmVPMatrix());
         }
+        elapsedTime = (System.currentTimeMillis()-lastTime)* 1.0E-03f;
+
+        if(fpsCounter!=null){
+            //fpsCounter.logFrame(elapsedTime);
+            fpsCounter.logFrame();
+        }
+
     }
 
     public void onSurfaceChanged(GL10 unused, int width, int height) {
@@ -104,5 +122,13 @@ public class Engine implements GLSurfaceView.Renderer {
      */
     public void setCamera(Camera camera) {
         this.camera = camera;
+    }
+
+    /**
+     * Set a FPSCounter
+     * @param fpsCounter the fpsCounter
+     */
+    public void setFpsCounter(FPSCounter fpsCounter) {
+        this.fpsCounter = fpsCounter;
     }
 }

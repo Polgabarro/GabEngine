@@ -14,8 +14,8 @@ public class Background {
 
     public Background(float R, float G, float B) {
         this.color[0] = R;
-        this.color[0] = G;
-        this.color[0] = B;
+        this.color[1] = G;
+        this.color[2] = B;
         colorBackground = true;
     }
 

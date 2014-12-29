@@ -109,7 +109,7 @@ public class Entity {
     /**
      * Attach a child
      *
-     * @param entity
+     * @param entity The entity
      */
     public void attachChild(Entity entity) {
         if (entity == this) {
@@ -120,6 +120,20 @@ public class Entity {
         entities.add(entity);
 
     }
+
+    /**
+     * Attach a child
+     *
+     * @param entites Array of entities
+     */
+
+    public void attachChild(Entity[] entites) {
+    for(Entity i:entites) {
+        i.parent = this;
+        entities.add(i);
+    }
+    }
+
 
     public boolean hasParent() {
         return parent != null ? true : false;
@@ -136,14 +150,14 @@ public class Entity {
     }
 
 
-    public void update() {
+    public void update(float elapsedTime) {
 
         makeModelTransformations();
 
         int length = entities.size();
 
         for (int i = 0; i < length; i++) {
-            entities.get(i).update();
+            entities.get(i).update(elapsedTime);
         }
         modelChanged = false;
     }
@@ -163,7 +177,7 @@ public class Entity {
     private void makeModelTransformations() {
 
         if (modelChanged || parentChanged()) {
-            Log.i("ENTER", "makeMODELENTRING ID:" + id);
+            //Log.i("ENTER", "makeMODELENTRING ID:" + id);
             float[] temp = new float[16];
             Matrix.multiplyMM(temp, 0, mRotationMatrix, 0, mScaleMatrix, 0);
             Matrix.multiplyMM(mModelMatrix, 0, mTranslationMatrix, 0, temp, 0);

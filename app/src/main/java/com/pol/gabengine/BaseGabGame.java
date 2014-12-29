@@ -36,7 +36,7 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
             System.exit(0);
         }
 
-        mGLView.getHolder().setFixedSize(engine.getCamera().getResolutionX(), engine.getCamera().getResolutionY());
+        //mGLView.getHolder().setFixedSize(engine.getCamera().getResolutionX(), engine.getCamera().getResolutionY());
 
         setContentView(mGLView);
 
