@@ -1,7 +1,5 @@
 package com.pol.entities;
 
-import android.util.Log;
-
 import com.pol.graphics.Shader;
 import com.pol.utils.CntsOpenGL;
 import com.pol.utils.GabMath;
@@ -102,9 +100,6 @@ public class ShapeCreator {
     public static Shape createCircle(float posX, float posY, float radius){
 
         int num_vertices=(int)(radius/4f);
-        //double th= (int) Math.acos(2d * (1d - 0.1d / radius)*(1d - 0.5d / radius) - 1d);
-        //int num_vertices = (int) Math.ceil(2 * Math.PI / th);
-        Log.i("NUmber","V:"+num_vertices);
         return createShape(createPolygon(posX,posY,num_vertices,radius));
     }
 
@@ -127,7 +122,7 @@ public class ShapeCreator {
      * PRIVATE STATIC METHODS
      */
     private static Shape createShape(Shape shape) {
-        shape.setShader(Shader.LoadShaders("shaders/Simple_VS.glsl", "shaders/Simple_FS.glsl"));
+        shape.setShader(Shader.LoadShaders("shader/Shape_VS.glsl", "shader/Shape_FS.glsl"));
         shape.initVertex();
         shape.initIndex();
         return shape;

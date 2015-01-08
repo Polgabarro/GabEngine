@@ -44,15 +44,14 @@ public class Engine implements GLSurfaceView.Renderer {
         context.onLoadResources();
         context.onLoadEntities();
         scene = context.onLoadScene();
+        elapsedTime=0;
+        lastTime = System.currentTimeMillis();
 
     }
 
     public void onDrawFrame(GL10 unused) {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        lastTime = System.currentTimeMillis();
-
-
 
         if (scene != null) {
             /**
@@ -71,6 +70,7 @@ public class Engine implements GLSurfaceView.Renderer {
             scene.render(camera.getmVPMatrix());
         }
         elapsedTime = (System.currentTimeMillis()-lastTime)* 1.0E-03f;
+        lastTime = System.currentTimeMillis();
 
         if(fpsCounter!=null){
             //fpsCounter.logFrame(elapsedTime);

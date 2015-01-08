@@ -3,6 +3,7 @@ package com.pol.graphics;
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.opengl.GLES20;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class Shader {
         if (shaderMap.containsKey(VertexShader)) {
             return shaderMap.get(VertexShader);
         } else {
-
+            Log.i("Shader Load","Shader: "+VertexShader+" and "+FragmentShader);
             int vertexShader = LoadShader(GLES20.GL_VERTEX_SHADER, VertexShader);
             int fragmentShader = LoadShader(GLES20.GL_FRAGMENT_SHADER, FragmentShader);
 

@@ -3,6 +3,8 @@ package com.pol.entities;
 import android.opengl.Matrix;
 import android.util.Log;
 
+import com.pol.actions.Action;
+
 import java.util.ArrayList;
 
 /**
@@ -28,6 +30,9 @@ public class Entity {
     private float[] mRotationMatrix = new float[16];
 
     private boolean modelChanged = false;
+
+    //ACTIONS
+    private Action action = null;
 
 
     /**
@@ -151,6 +156,8 @@ public class Entity {
 
 
     public void update(float elapsedTime) {
+        if(action!=null)
+        action.update(elapsedTime);
 
         makeModelTransformations();
 
@@ -169,6 +176,32 @@ public class Entity {
             entities.get(i).render(mVPMatrix);
         }
 
+    }
+
+
+    /**
+     * Add a Action to Entity
+     * @param action the action
+     */
+    public void addAction(Action action) {
+        this.action = action;
+        this.action.setEntity(this);
+    }
+
+    /**
+     * Remove the Action of Entity
+     */
+    public void removeAction(){
+        this.action =null;
+
+    }
+
+    /**
+     * Return action from entity
+     * @return
+     */
+    public Action getAction() {
+        return action;
     }
 
     /**

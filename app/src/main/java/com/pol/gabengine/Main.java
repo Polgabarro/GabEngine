@@ -1,5 +1,6 @@
 package com.pol.gabengine;
 
+import com.pol.actions.MoveToAction;
 import com.pol.camera.Camera;
 import com.pol.camera.CameraOrientation;
 import com.pol.engine.Engine;
@@ -40,20 +41,23 @@ public class Main extends BaseGabGame {
         //testShape.setY(0);
         //testShape.setPosition(-250,100);
         //testShape2 = ShapeCreator.createRectangle(-200, 0, 200, 200, new float[]{0.6f, 1f, 0f});
-        testShape3 = ShapeCreator.createCircle(0, 0, 200);
-        testShape4 = ShapeCreator.createPolygon(200,200,5,100, new float[]{1,0,0});
-
+        testShape3 = ShapeCreator.createCircle(0, 0, 100);
+        testShape3.setColor(1,0,0);
+        MoveToAction moveToAction = new MoveToAction(-300,0,300,300,4,false);
+        testShape3.addAction(moveToAction);
+        //testShape4 = ShapeCreator.createPolygon(200,200,5,100, new float[]{1,0,0});
+        /*
         for(int i=0;i<test.length;i++){
             test[i]=ShapeCreator.createRectangle(randInt(-768/2, 768/2),randInt(-1184/2,1184/2),100,100,randColor());
-        }
+        }*/
 
     }
 
     @Override
     public Scene onLoadScene() {
         scene.attachChild(testShape3);
-        scene.attachChild(testShape4);
-        scene.attachChild(test);
+        //scene.attachChild(testShape4);
+        //scene.attachChild(test);
         //testShape.attachChild(testShape2);
         //scene.attachChild(testShape3);
         //
