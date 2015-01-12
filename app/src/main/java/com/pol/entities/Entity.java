@@ -20,6 +20,8 @@ public class Entity {
 
 
     private float x = 0, y = 0;
+    private float rotation = 0;
+    private float scale = 1;
     protected ArrayList<Entity> entities;
     private Entity parent = null;
 
@@ -180,7 +182,7 @@ public class Entity {
 
 
     /**
-     * Add a Action to Entity
+     * Add an Action to Entity
      * @param action the action
      */
     public void addAction(Action action) {
@@ -192,13 +194,14 @@ public class Entity {
      * Remove the Action of Entity
      */
     public void removeAction(){
+        this.action.removeEntity();
         this.action =null;
 
     }
 
     /**
      * Return action from entity
-     * @return
+     * @return the action
      */
     public Action getAction() {
         return action;

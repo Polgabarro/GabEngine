@@ -23,10 +23,9 @@ public class Engine implements GLSurfaceView.Renderer {
     public BaseGabGame context;
     private Camera camera = null;
 
-    private float elapsedTime=1L/60L;
-    private long lastTime =0L;
+    private float elapsedTime = 1L / 60L;
+    private long lastTime = 0L;
     private FPSCounter fpsCounter = null;
-
 
 
     public Engine(BaseGabGame context) {
@@ -44,7 +43,7 @@ public class Engine implements GLSurfaceView.Renderer {
         context.onLoadResources();
         context.onLoadEntities();
         scene = context.onLoadScene();
-        elapsedTime=0;
+        elapsedTime = 0;
         lastTime = System.currentTimeMillis();
 
     }
@@ -69,12 +68,11 @@ public class Engine implements GLSurfaceView.Renderer {
             GLES20.glClearColor(color[0], color[1], color[2], 1);
             scene.render(camera.getmVPMatrix());
         }
-        elapsedTime = (System.currentTimeMillis()-lastTime)* 1.0E-03f;
+        elapsedTime = (System.currentTimeMillis() - lastTime) * 1.0E-03f;
         lastTime = System.currentTimeMillis();
 
-        if(fpsCounter!=null){
-            //fpsCounter.logFrame(elapsedTime);
-            fpsCounter.logFrame();
+        if (fpsCounter != null) {
+            fpsCounter.logFrame(elapsedTime);
         }
 
     }
@@ -126,6 +124,7 @@ public class Engine implements GLSurfaceView.Renderer {
 
     /**
      * Set a FPSCounter
+     *
      * @param fpsCounter the fpsCounter
      */
     public void setFpsCounter(FPSCounter fpsCounter) {

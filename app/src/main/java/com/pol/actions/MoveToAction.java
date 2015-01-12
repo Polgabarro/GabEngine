@@ -6,7 +6,7 @@ import com.pol.actions.easefunctions.EaseFunction;
  * Created by Pol Gabarró<polgabarr@gmail.com> on 08/01/15.
  */
 
-public class MoveToAction extends Action {
+public class MoveToAction extends FiniteAction {
 
     float initX,initY, diffX, diffY;
     /*
@@ -14,7 +14,7 @@ public class MoveToAction extends Action {
      */
 
     /**
-     * Constructs an new moveToAction
+     * Constructs a new moveToAction
      * @param initX the initial X position
      * @param initY the initial Y position
      * @param finalX the final X position
@@ -43,7 +43,6 @@ public class MoveToAction extends Action {
      * @param easeFunction the function of the move
      */
     public MoveToAction(float initX, float initY, float finalX, float finalY, float time, boolean loop, EaseFunction easeFunction) {
-        super();
         this.initX = initX;
         this.initY = initY;
         this.diffX = finalX-initX;
@@ -62,7 +61,7 @@ public class MoveToAction extends Action {
 
     @Override
     protected void calcModification() {
-        entity.setPosition(initX+ diffX *percentatge,initY+diffY *percentatge);
+        entity.setPosition(initX + diffX * percentage, initY + diffY * percentage);
     }
 
 }

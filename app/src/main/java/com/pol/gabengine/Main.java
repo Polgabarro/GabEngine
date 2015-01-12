@@ -1,5 +1,6 @@
 package com.pol.gabengine;
 
+import com.pol.actions.MoveAction;
 import com.pol.actions.MoveToAction;
 import com.pol.camera.Camera;
 import com.pol.camera.CameraOrientation;
@@ -44,7 +45,27 @@ public class Main extends BaseGabGame {
         testShape3 = ShapeCreator.createCircle(0, 0, 100);
         testShape3.setColor(1,0,0);
         MoveToAction moveToAction = new MoveToAction(-300,0,300,300,4,false);
-        testShape3.addAction(moveToAction);
+        //testShape3.addAction(moveToAction);
+        MoveAction moveAction = new MoveAction(0, 600, 0, -300);
+        testShape3.addAction(moveAction);
+
+
+       /* moveToAction.setActionListener(new ActionListener() {
+            @Override
+            public void onActionBegin(Entity actioned, FiniteAction action) {
+                //Log.i("ActionListener","Començo");
+            }
+
+            @Override
+            public void onActionOn(Entity actioned, FiniteAction action) {
+                //Log.i("ActionListener","EsticEnmig Temps:"+action.getTime()+"Temps Total:"+action.getTotalTime()+ "Percentatge:"+ action.getPercentage());
+            }
+
+            @Override
+            public void onActionEnd(Entity actioned, FiniteAction action) {
+                //Log.i("ActionListener","Acabo");
+            }
+        });
         //testShape4 = ShapeCreator.createPolygon(200,200,5,100, new float[]{1,0,0});
         /*
         for(int i=0;i<test.length;i++){

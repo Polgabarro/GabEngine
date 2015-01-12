@@ -23,6 +23,11 @@ public class Scene extends Entity {
         return background;
     }
 
+    /**
+     * Set a background to the scene
+     *
+     * @param background
+     */
     public void setBackground(Background background) {
         this.background = background;
     }
