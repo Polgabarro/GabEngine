@@ -31,7 +31,7 @@ public class Shader {
         if (shaderMap.containsKey(VertexShader)) {
             return shaderMap.get(VertexShader);
         } else {
-            Log.i("Shader Load","Shader: "+VertexShader+" and "+FragmentShader);
+            Log.i("Shader Load", "Shader: " + VertexShader + " and " + FragmentShader);
             int vertexShader = LoadShader(GLES20.GL_VERTEX_SHADER, VertexShader);
             int fragmentShader = LoadShader(GLES20.GL_FRAGMENT_SHADER, FragmentShader);
 

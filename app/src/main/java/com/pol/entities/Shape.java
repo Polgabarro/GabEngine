@@ -14,26 +14,23 @@ import java.nio.ShortBuffer;
  */
 public class Shape extends Entity {
 
+    protected float shapeCords[];
+    protected short shapeIndex[];
+    protected float color[] = {1f, 1f, 1f, 1f};
+    protected FloatBuffer vertexBuffer;
+    protected ShortBuffer drawListBuffer;
+    //OpenGL Render
+    protected int mProgram;
+    //Vertex Shader Uniforms handlers
+    protected int mPositionHandle;
+    protected int mVPMatrixHandle;
+    protected int mModelMatrixHandle;
+    //Fragment Shader Uniform handlers
+    protected int mColorHandle;
     /**
      * VARIABLES
      */
     private boolean containFigure;
-    protected float shapeCords[];
-    protected short shapeIndex[];
-    protected float color[] = {1f, 1f, 1f, 1f};
-
-    private FloatBuffer vertexBuffer;
-    private ShortBuffer drawListBuffer;
-
-    //OpenGL Render
-    private int mProgram;
-    //Vertex Shader Uniforms handlers
-    private int mPositionHandle;
-    private int mVPMatrixHandle;
-    private int mModelMatrixHandle;
-
-    //Fragment Shader Uniform handlers
-    private int mColorHandle;
 
 
     /**
@@ -103,9 +100,9 @@ public class Shape extends Entity {
         GLES20.glEnableVertexAttribArray(mPositionHandle);
 
         GLES20.glVertexAttribPointer(
-                mPositionHandle, CntsOpenGL.COORDS_PER_VERTEX,
+                mPositionHandle, CntsOpenGL.CORDS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
-                CntsOpenGL.COORDS_PER_VERTEX * 4, vertexBuffer);
+                CntsOpenGL.CORDS_PER_VERTEX * 4, vertexBuffer);
 
 
         GLES20.glUniformMatrix4fv(mVPMatrixHandle, 1, false, mVPMatrix, 0);

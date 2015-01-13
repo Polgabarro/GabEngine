@@ -9,6 +9,7 @@ import android.util.Log;
 import com.pol.engine.Engine;
 import com.pol.entities.Scene;
 import com.pol.graphics.Shader;
+import com.pol.graphics.textures.TextureFactory;
 
 
 public abstract class BaseGabGame extends Activity implements GameInterface {
@@ -61,6 +62,7 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
      */
     private void init() {
         Shader.init(this);
+        TextureFactory.init(this);
     }
 
     private void setOrientation(Engine engine) {

@@ -6,15 +6,13 @@ import android.opengl.Matrix;
  * Created by Pol Gabarró<polgabarr@gmail.com> on 18/12/14.
  */
 public class Camera {
-    private int resolutionX, resolutionY;
-
-    //CAMERA
-    CameraOrientation cameraOrientation;
-
     //MATRIX
     private final float[] mViewMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mVPMatrix = new float[16];
+    //CAMERA
+    CameraOrientation cameraOrientation;
+    private int resolutionX, resolutionY;
 
 
     public Camera(int resolutionX, int resolutionY, CameraOrientation cameraOrientation) {

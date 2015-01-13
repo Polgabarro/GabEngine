@@ -16,17 +16,14 @@ public class Entity {
      * VARIABLES
      */
     private static int totalEntityCreated = 0;
+    protected ArrayList<Entity> entities;
+    //MODEL MATRIX'S
+    protected float[] mModelMatrix = new float[16];
     private int id;
-
-
     private float x = 0, y = 0;
     private float rotation = 0;
     private float scale = 1;
-    protected ArrayList<Entity> entities;
     private Entity parent = null;
-
-    //MODEL MATRIX'S
-    protected float[] mModelMatrix = new float[16];
     private float[] mScaleMatrix = new float[16];
     private float[] mTranslationMatrix = new float[16];
     private float[] mRotationMatrix = new float[16];
@@ -135,10 +132,10 @@ public class Entity {
      */
 
     public void attachChild(Entity[] entites) {
-    for(Entity i:entites) {
-        i.parent = this;
-        entities.add(i);
-    }
+        for (Entity i : entites) {
+            i.parent = this;
+            entities.add(i);
+        }
     }
 
 
@@ -158,8 +155,8 @@ public class Entity {
 
 
     public void update(float elapsedTime) {
-        if(action!=null)
-        action.update(elapsedTime);
+        if (action != null)
+            action.update(elapsedTime);
 
         makeModelTransformations();
 
@@ -183,6 +180,7 @@ public class Entity {
 
     /**
      * Add an Action to Entity
+     *
      * @param action the action
      */
     public void addAction(Action action) {
@@ -193,14 +191,15 @@ public class Entity {
     /**
      * Remove the Action of Entity
      */
-    public void removeAction(){
+    public void removeAction() {
         this.action.removeEntity();
-        this.action =null;
+        this.action = null;
 
     }
 
     /**
      * Return action from entity
+     *
      * @return the action
      */
     public Action getAction() {

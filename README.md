@@ -5,6 +5,12 @@ Simple OpenGL Engine for Android
 
 NOTE: IS NOT FUNCTIONAL (TEST ONLY)
 ===================================
-**Only draws rectangles with different colors in a different positions.**
+**Things that can do**
+
+* Draw Shapes
+* Draw Sprites
+* Scale, translate and rotate
+* Animate entities
+* Make animations look awesome with easyfunctions
 
 Wait for more improvements!
