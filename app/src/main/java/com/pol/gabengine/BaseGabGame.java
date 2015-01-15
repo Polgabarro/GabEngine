@@ -8,18 +8,19 @@ import android.util.Log;
 
 import com.pol.engine.Engine;
 import com.pol.entities.Scene;
+import com.pol.entities.SpriteCreator;
 import com.pol.graphics.Shader;
 import com.pol.graphics.textures.TextureFactory;
 
 
 public abstract class BaseGabGame extends Activity implements GameInterface {
 
+    public float statusBarSize;
     /**
      * VARIABLES
      */
-    Engine engine;
+    private Engine engine;
     private GLSurfaceView mGLView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,13 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
         }
 
         //mGLView.getHolder().setFixedSize(engine.getCamera().getResolutionX(), engine.getCamera().getResolutionY());
+
+        statusBarSize = getStatusBarHeight();/*
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
+
+
+
 
         setContentView(mGLView);
 
@@ -63,6 +71,7 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
     private void init() {
         Shader.init(this);
         TextureFactory.init(this);
+        SpriteCreator.init();
     }
 
     private void setOrientation(Engine engine) {
@@ -81,6 +90,15 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
 
         setRequestedOrientation(ORIENTATION_MODE);
 
+    }
+
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
 

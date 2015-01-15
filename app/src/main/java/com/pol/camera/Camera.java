@@ -29,7 +29,7 @@ public class Camera {
 
         float ratio = (float) resolutionX / resolutionY;
 
-        Matrix.orthoM(mProjectionMatrix, 0, -resolutionX / 2f, resolutionX / 2f, -resolutionY / 2f, resolutionY / 2f, 0, 50);
+        Matrix.orthoM(mProjectionMatrix, 0, -resolutionX / 2f, resolutionX / 2f, -resolutionY / 2f, resolutionY / 2f, -5, 50);
         Matrix.multiplyMM(mVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
     }
 

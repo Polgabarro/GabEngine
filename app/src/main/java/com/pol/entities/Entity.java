@@ -4,6 +4,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 import com.pol.actions.Action;
+import com.pol.entities.updateModifier.UpdateListener;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class Entity {
     //MODEL MATRIX'S
     protected float[] mModelMatrix = new float[16];
     private int id;
-    private float x = 0, y = 0;
+    private float x = 0, y = 0, z = 0;
     private float rotation = 0;
     private float scale = 1;
     private Entity parent = null;
@@ -28,10 +29,12 @@ public class Entity {
     private float[] mTranslationMatrix = new float[16];
     private float[] mRotationMatrix = new float[16];
 
+
     private boolean modelChanged = false;
 
     //ACTIONS
     private Action action = null;
+    private UpdateListener updateListener = null;
 
 
     /**
@@ -54,7 +57,6 @@ public class Entity {
     /**
      * PUBLIC METHODS
      */
-
     /**
      * Get the position
      *
@@ -72,7 +74,7 @@ public class Entity {
     public void setX(float x) {
 
         modelChanged = true;
-        setTranslation(x - this.x, 0);
+        setTranslation(x - this.x, 0, 0);
         this.x = x;
     }
 
@@ -93,7 +95,7 @@ public class Entity {
     public void setY(float y) {
 
         modelChanged = true;
-        setTranslation(0, y - this.y);
+        setTranslation(0, y - this.y, 0);
         this.y = y;
     }
 
@@ -105,7 +107,7 @@ public class Entity {
      */
     public void setPosition(float x, float y) {
         modelChanged = true;
-        setTranslation(x - this.x, y - this.y);
+        setTranslation(x - this.x, y - this.y, 0);
         this.x = x;
         this.y = y;
     }
@@ -128,13 +130,13 @@ public class Entity {
     /**
      * Attach a child
      *
-     * @param entites Array of entities
+     * @param entities Array of entities
      */
 
-    public void attachChild(Entity[] entites) {
-        for (Entity i : entites) {
+    public void attachChild(Entity[] entities) {
+        for (Entity i : entities) {
             i.parent = this;
-            entities.add(i);
+            this.entities.add(i);
         }
     }
 
@@ -155,8 +157,12 @@ public class Entity {
 
 
     public void update(float elapsedTime) {
+
         if (action != null)
             action.update(elapsedTime);
+
+        if (updateListener != null)
+            updateListener.update(elapsedTime);
 
         makeModelTransformations();
 
@@ -207,6 +213,64 @@ public class Entity {
     }
 
     /**
+     * Add an Action to Entity
+     *
+     * @param updateListener the action
+     */
+    public void addUpdateListener(UpdateListener updateListener) {
+        this.updateListener = updateListener;
+    }
+
+    /**
+     * Remove the Action of Entity
+     */
+    public void removeUpdateListener() {
+        this.updateListener = null;
+    }
+
+    /**
+     * Return action from entity
+     *
+     * @return the action
+     */
+    public UpdateListener updateListener() {
+        return updateListener;
+    }
+
+    /**
+     * @return the Z Index
+     */
+    public float getZIndex() {
+        return z;
+    }
+
+    /**
+     * Set the Z Index
+     *
+     * @param zIndex
+     */
+    public void setZIndex(float zIndex) {
+        modelChanged = true;
+        setTranslation(0, 0, zIndex - this.z);
+
+        this.z = zIndex;
+    }
+
+    /**
+     * Set this entity behind this @param entity
+     */
+    public void setBehind(Entity entity) {
+        setZIndex(entity.getZIndex() - 0.1f);
+    }
+
+    /**
+     * Set this entity front this @param entity
+     */
+    public void setFront(Entity entity) {
+        setZIndex(entity.getZIndex() + 0.1f);
+    }
+
+    /**
      * PRIVATE METHODS
      */
     private void makeModelTransformations() {
@@ -230,9 +294,8 @@ public class Entity {
         return false;
     }
 
-    private void setTranslation(float x, float y) {
-        Matrix.translateM(mTranslationMatrix, 0, x, y, 0);
+    private void setTranslation(float x, float y, float z) {
+        Matrix.translateM(mTranslationMatrix, 0, x, y, z);
     }
-
 
 }

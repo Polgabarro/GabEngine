@@ -1,7 +1,7 @@
 package com.pol.entities;
 
 import com.pol.graphics.Shader;
-import com.pol.utils.CntsOpenGL;
+import com.pol.utils.CnsOpenGL;
 import com.pol.utils.GabMath;
 
 /**
@@ -63,7 +63,7 @@ public class ShapeCreator {
     public static Shape createPolygon(float posX, float posY, int nVertex, float radius) {
         Shape shape = new Shape(posX, posY);
 
-        shape.shapeCords = new float[(nVertex + 1) * CntsOpenGL.CORDS_PER_VERTEX];
+        shape.shapeCords = new float[(nVertex + 1) * CnsOpenGL.CORDS_PER_VERTEX];
         shape.shapeIndex = new short[(nVertex) * 3];
 
         GabMath.createCircumferenceVectors(nVertex, shape.shapeCords, shape.shapeIndex, radius);

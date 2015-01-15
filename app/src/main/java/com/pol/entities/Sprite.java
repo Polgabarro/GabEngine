@@ -3,7 +3,7 @@ package com.pol.entities;
 import android.opengl.GLES20;
 
 import com.pol.graphics.textures.Texture;
-import com.pol.utils.CntsOpenGL;
+import com.pol.utils.CnsOpenGL;
 
 /**
  * Created by Pol Gabarró<polgabarr@gmail.com> on 12/01/15.
@@ -14,12 +14,10 @@ public class Sprite extends Shape {
     private int mUV;
 
 
-    /**
+    /*
      * CONSTRUCTORS
-     *
-     * @param x
-     * @param y
      */
+    @Deprecated //NOT USE
     public Sprite(float x, float y, Texture texture) {
         super(x, y);
         this.texture = texture;
@@ -41,14 +39,14 @@ public class Sprite extends Shape {
         GLES20.glEnableVertexAttribArray(mPositionHandle);
 
         GLES20.glVertexAttribPointer(
-                mPositionHandle, CntsOpenGL.CORDS_PER_VERTEX,
+                mPositionHandle, CnsOpenGL.CORDS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
-                CntsOpenGL.CORDS_PER_VERTEX * 4, vertexBuffer);
+                CnsOpenGL.CORDS_PER_VERTEX * 4, vertexBuffer);
 
         GLES20.glEnableVertexAttribArray(mUV);
-        GLES20.glVertexAttribPointer(mUV, CntsOpenGL.UV_PER_VERTEX,
+        GLES20.glVertexAttribPointer(mUV, CnsOpenGL.UV_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
-                CntsOpenGL.UV_PER_VERTEX * 4, texture.getUvBuffer());
+                CnsOpenGL.UV_PER_VERTEX * 4, texture.getUvBuffer());
 
 
         GLES20.glUniformMatrix4fv(mVPMatrixHandle, 1, false, mVPMatrix, 0);

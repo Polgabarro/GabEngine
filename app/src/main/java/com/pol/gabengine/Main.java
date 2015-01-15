@@ -1,5 +1,8 @@
 package com.pol.gabengine;
 
+import android.util.Log;
+import android.view.MotionEvent;
+
 import com.pol.actions.MoveAction;
 import com.pol.actions.MoveToAction;
 import com.pol.camera.Camera;
@@ -11,6 +14,7 @@ import com.pol.entities.ShapeCreator;
 import com.pol.entities.Sprite;
 import com.pol.entities.SpriteCreator;
 import com.pol.entities.background.Background;
+import com.pol.entities.updateModifier.TimeElapsedListener;
 import com.pol.graphics.FPSCounter;
 import com.pol.graphics.textures.Texture;
 import com.pol.graphics.textures.TextureFactory;
@@ -25,6 +29,7 @@ public class Main extends BaseGabGame {
     Scene scene;
     Shape testShape, testShape2, testShape3, testShape4;
     Sprite testSprite;
+    Sprite tank;
     Texture texture;
     Shape[] test = new Shape[3000];
 
@@ -102,12 +107,22 @@ public class Main extends BaseGabGame {
         }*/
         testSprite = SpriteCreator.createSprite(0, 0, 100, 100, texture);
         testSprite.addAction(moveAction);
+        tank = SpriteCreator.createSprite(50, 50, 73, 132, "tank.png");
 
     }
 
     @Override
     public Scene onLoadScene() {
         scene.attachChild(testSprite);
+        testSprite.addUpdateListener(new TimeElapsedListener(5) {
+            @Override
+            public void onTimeElapsed() {
+                testSprite.setPosition(0, 0);
+                testSprite.removeAction();
+                tank.setZIndex(-5);
+            }
+        });
+        scene.attachChild(tank);
         //scene.attachChild(testShape4);
         //scene.attachChild(test);
         //testShape.attachChild(testShape2);
@@ -115,6 +130,21 @@ public class Main extends BaseGabGame {
         //
         //testShape.setPosition(-200, 100);
         return scene;
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Log.i("Positions", "RAW :PosX:" + event.getRawX() + " PosY" + event.getRawY() + " FIXED PosX:" + event.getRawX() + " PosY" + (event.getRawY() - statusBarSize));
+                tank.setPosition(event.getX() - 768f / 2f, (event.getY() - statusBarSize) - 1184f / 2f);
+            case MotionEvent.ACTION_MOVE:
+                tank.setPosition(event.getX() - 768f / 2f, -((event.getY() - statusBarSize) - 1184f / 2f));
+            case MotionEvent.ACTION_UP:
+        }
+        return false;
     }
 }
 

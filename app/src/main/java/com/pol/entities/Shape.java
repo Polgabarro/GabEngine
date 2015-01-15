@@ -2,7 +2,7 @@ package com.pol.entities;
 
 import android.opengl.GLES20;
 
-import com.pol.utils.CntsOpenGL;
+import com.pol.utils.CnsOpenGL;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -100,9 +100,9 @@ public class Shape extends Entity {
         GLES20.glEnableVertexAttribArray(mPositionHandle);
 
         GLES20.glVertexAttribPointer(
-                mPositionHandle, CntsOpenGL.CORDS_PER_VERTEX,
+                mPositionHandle, CnsOpenGL.CORDS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
-                CntsOpenGL.CORDS_PER_VERTEX * 4, vertexBuffer);
+                CnsOpenGL.CORDS_PER_VERTEX * 4, vertexBuffer);
 
 
         GLES20.glUniformMatrix4fv(mVPMatrixHandle, 1, false, mVPMatrix, 0);

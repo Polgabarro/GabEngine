@@ -4,7 +4,7 @@ import android.opengl.GLES20;
 import android.util.Log;
 
 import com.pol.graphics.Shader;
-import com.pol.utils.CntsOpenGL;
+import com.pol.utils.CnsOpenGL;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -53,7 +53,7 @@ public class ShapeBatches extends Entity {
         super(x, y);
         setShader(Shader.LoadShaders("shader/ShapeBatches_VS.glsl", "shader/ShapeBatches_FS.glsl"));
         //TODO Optimitze the number of vertex
-        shapeCords = new float[CntsOpenGL.CORDS_PER_VERTEX * nShapes * 4];
+        shapeCords = new float[CnsOpenGL.CORDS_PER_VERTEX * nShapes * 4];
         shapeIndex = new short[6 * nShapes];
         shapeMap = new HashMap<Integer, Shape>();
         this.maxShapes = nShapes;
@@ -67,7 +67,7 @@ public class ShapeBatches extends Entity {
             //RESIZE THINGS
             Log.d("GabEngine Perfomance", "Rezing ShapeBatches");
         }
-        System.arraycopy(shape.shapeCords, 0, shapeCords, 4 * totalEntitys * CntsOpenGL.CORDS_PER_VERTEX, shape.shapeCords.length);
+        System.arraycopy(shape.shapeCords, 0, shapeCords, 4 * totalEntitys * CnsOpenGL.CORDS_PER_VERTEX, shape.shapeCords.length);
         System.arraycopy(shape.shapeIndex, 0, shapeIndex, 6 * totalEntitys, shape.shapeIndex.length);
 
         shapeMap.put(totalEntitys, shape);
@@ -203,9 +203,9 @@ public class ShapeBatches extends Entity {
         GLES20.glEnableVertexAttribArray(mPositionHandle);
 
         GLES20.glVertexAttribPointer(
-                mPositionHandle, CntsOpenGL.CORDS_PER_VERTEX,
+                mPositionHandle, CnsOpenGL.CORDS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
-                CntsOpenGL.CORDS_PER_VERTEX * 4, vertexBuffer);
+                CnsOpenGL.CORDS_PER_VERTEX * 4, vertexBuffer);
 
 
         GLES20.glUniformMatrix4fv(mVPMatrixHandle, 1, false, mVPMatrix, 0);

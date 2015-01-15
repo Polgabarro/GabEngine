@@ -58,6 +58,14 @@ public class Engine implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         //For performance improvements
         GLES20.glEnable(GLES20.GL_CULL_FACE);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+        GLES20.glEnable(GLES20.GL_BLEND);
+
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        GLES20.glDepthFunc(GLES20.GL_LEQUAL);
+        GLES20.glDepthRangef(0.0f, 1.0f);
+        //GLES20.glDepthMask( true );
+
 
         context.onLoadResources();
         context.onLoadEntities();
@@ -65,11 +73,19 @@ public class Engine implements GLSurfaceView.Renderer {
         elapsedTime = 0;
         lastTime = System.currentTimeMillis();
 
+
     }
 
     public void onDrawFrame(GL10 unused) {
+
+        elapsedTime = (System.currentTimeMillis() - lastTime) * 1.0E-03f;
+        lastTime = System.currentTimeMillis();
+        if (fpsCounter != null) {
+            fpsCounter.logFrame(elapsedTime);
+        }
+
         // Redraw background color
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         if (scene != null) {
             /**
@@ -87,12 +103,7 @@ public class Engine implements GLSurfaceView.Renderer {
             GLES20.glClearColor(color[0], color[1], color[2], 1);
             scene.render(camera.getmVPMatrix());
         }
-        elapsedTime = (System.currentTimeMillis() - lastTime) * 1.0E-03f;
-        lastTime = System.currentTimeMillis();
 
-        if (fpsCounter != null) {
-            fpsCounter.logFrame(elapsedTime);
-        }
 
     }
 
