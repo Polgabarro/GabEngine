@@ -40,7 +40,7 @@ public class Entity {
     /**
      * CONSTRUCTORS
      */
-    public Entity() {
+    protected Entity() {
         id = totalEntityCreated;
         totalEntityCreated++;
         entities = new ArrayList<Entity>();
@@ -49,7 +49,7 @@ public class Entity {
         Matrix.setIdentityM(mRotationMatrix, 0);
     }
 
-    public Entity(float x, float y) {
+    protected Entity(float x, float y) {
         this();
         setPosition(x, y);
     }
@@ -198,9 +198,10 @@ public class Entity {
      * Remove the Action of Entity
      */
     public void removeAction() {
+        if (action != null) {
         this.action.removeEntity();
         this.action = null;
-
+        }
     }
 
     /**

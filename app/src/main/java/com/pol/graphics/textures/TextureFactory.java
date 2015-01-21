@@ -30,7 +30,7 @@ public class TextureFactory {
 
         texture.glTexture = loadGLTextureFromBitmap(bitmap);
         texture.width = bitmap.getWidth();
-        texture.height = bitmap.getWidth();
+        texture.height = bitmap.getHeight();
         texture.load();
         return texture;
     }

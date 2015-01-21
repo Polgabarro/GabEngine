@@ -1,6 +1,5 @@
 package com.pol.gabengine;
 
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.pol.actions.MoveAction;
@@ -18,6 +17,7 @@ import com.pol.entities.updateModifier.TimeElapsedListener;
 import com.pol.graphics.FPSCounter;
 import com.pol.graphics.textures.Texture;
 import com.pol.graphics.textures.TextureFactory;
+import com.pol.utils.io.OnTouchListener;
 
 import java.util.Random;
 
@@ -82,8 +82,6 @@ public class Main extends BaseGabGame {
         //testShape3.addAction(moveToAction);
         MoveAction moveAction = new MoveAction(0, 600, 0, -300);
 
-
-
        /* moveToAction.setActionListener(new ActionListener() {
             @Override
             public void onActionBegin(Entity actioned, FiniteAction action) {
@@ -106,8 +104,9 @@ public class Main extends BaseGabGame {
             test[i]=ShapeCreator.createRectangle(randInt(-768/2, 768/2),randInt(-1184/2,1184/2),100,100,randColor());
         }*/
         testSprite = SpriteCreator.createSprite(0, 0, 100, 100, texture);
-        testSprite.addAction(moveAction);
-        tank = SpriteCreator.createSprite(50, 50, 73, 132, "tank.png");
+
+        tank = SpriteCreator.createSprite(50, 50, "tank.png");
+        tank.addAction(moveAction);
 
     }
 
@@ -117,8 +116,8 @@ public class Main extends BaseGabGame {
         testSprite.addUpdateListener(new TimeElapsedListener(5) {
             @Override
             public void onTimeElapsed() {
-                testSprite.setPosition(0, 0);
-                testSprite.removeAction();
+                tank.setPosition(0, 0);
+                tank.removeAction();
                 tank.setZIndex(-5);
             }
         });
@@ -129,22 +128,35 @@ public class Main extends BaseGabGame {
         //scene.attachChild(testShape3);
         //
         //testShape.setPosition(-200, 100);
+        final Sprite tank2 = SpriteCreator.createSprite(-200, 0, "tank.png");
+        scene.attachChild(tank2);
+
+        testSprite.attachOnTouchListener(new OnTouchListener() {
+            @Override
+            public void onTouch(float posX, float posY, MotionEvent event) {
+                testSprite.setPosition(posX, posY);
+            }
+        });
+
+        tank2.attachOnTouchListener(new OnTouchListener() {
+            @Override
+            public void onTouch(float posX, float posY, MotionEvent event) {
+                tank2.setPosition(posX, posY);
+            }
+        });
         return scene;
     }
 
-
+    /*
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
+    public void onTouch(float posX, float posY, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.i("Positions", "RAW :PosX:" + event.getRawX() + " PosY" + event.getRawY() + " FIXED PosX:" + event.getRawX() + " PosY" + (event.getRawY() - statusBarSize));
-                tank.setPosition(event.getX() - 768f / 2f, (event.getY() - statusBarSize) - 1184f / 2f);
+                testSprite.setPosition(posX,posY);
             case MotionEvent.ACTION_MOVE:
-                tank.setPosition(event.getX() - 768f / 2f, -((event.getY() - statusBarSize) - 1184f / 2f));
+                testSprite.setPosition(posX,posY);
             case MotionEvent.ACTION_UP:
         }
-        return false;
-    }
+    }*/
 }
 

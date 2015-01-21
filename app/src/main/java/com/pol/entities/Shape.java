@@ -2,7 +2,9 @@ package com.pol.entities;
 
 import android.opengl.GLES20;
 
+import com.pol.managers.TouchManager;
 import com.pol.utils.CnsOpenGL;
+import com.pol.utils.io.OnTouchListener;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -30,13 +32,15 @@ public class Shape extends Entity {
     /**
      * VARIABLES
      */
+    private float width, height;
     private boolean containFigure;
+    private OnTouchListener onTouchListener = null;
 
 
     /**
      * CONSTRUCTORS
      */
-    public Shape(float x, float y) {
+    protected Shape(float x, float y) {
         super(x, y);
     }
 
@@ -51,9 +55,34 @@ public class Shape extends Entity {
      * @param B is the blue component of the color
      */
     public void setColor(float R, float G, float B) {
-        color[0] = R;
-        color[1] = G;
-        color[2] = B;
+        this.color[0] = R;
+        this.color[1] = G;
+        this.color[2] = B;
+    }
+
+    /**
+     *
+     * @return the color
+     */
+    public float[] getColor() {
+        return this.color;
+    }
+
+    /**
+     * @return the alpha
+     */
+    public float getAlpha() {
+        return this.color[3];
+    }
+
+
+    /**
+     * Set the transparency of a shape
+     *
+     * @param alpha
+     */
+    public void setAlpha(float alpha) {
+        this.color[3] = alpha;
     }
 
     /**
@@ -66,7 +95,6 @@ public class Shape extends Entity {
         mModelMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uModelMatrix");
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
-
 
     }
 
@@ -128,9 +156,50 @@ public class Shape extends Entity {
 
     }
 
+    /**
+     * Set Touch Listener to a shape
+     * @param onTouchListener
+     */
+    public void attachOnTouchListener(OnTouchListener onTouchListener) {
+        this.onTouchListener = onTouchListener;
+        TouchManager.getInstance().addTouchDetection(this);
+    }
 
-/**
- * PRIVATE METHODS
+    /**
+     * Remove the touch Listener
+     */
+    public void removeOnTouchListener() {
+        this.onTouchListener = null;
+        TouchManager.getInstance().removeTouchDetection(this);
+    }
+
+    public OnTouchListener getOnTouchListener() {
+        return onTouchListener;
+    }
+
+    /**
+     * @return the shape width
+     */
+    public float getWidth() {
+        return width;
+    }
+
+    protected void setWidth(float width) {
+        this.width = width;
+    }
+
+    /**
+     * @return the shape height
+     */
+    public float getHeight() {
+        return height;
+    }
+
+    protected void setHeight(float height) {
+        this.height = height;
+    }
+    /**
+     * PRIVATE METHODS
  */
 
 }

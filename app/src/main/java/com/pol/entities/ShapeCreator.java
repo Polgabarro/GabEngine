@@ -30,6 +30,8 @@ public class ShapeCreator {
         shape.shapeIndex = new short[]{
                 0, 1, 2, 2, 3, 0
         };
+        shape.setWidth(width);
+        shape.setHeight(height);
         return createShape(shape);
     }
 

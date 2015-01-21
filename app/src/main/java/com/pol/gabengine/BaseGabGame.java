@@ -5,12 +5,15 @@ import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.pol.engine.Engine;
 import com.pol.entities.Scene;
 import com.pol.entities.SpriteCreator;
 import com.pol.graphics.Shader;
 import com.pol.graphics.textures.TextureFactory;
+import com.pol.managers.TouchManager;
+import com.pol.utils.io.OnTouchListener;
 
 
 public abstract class BaseGabGame extends Activity implements GameInterface {
@@ -21,6 +24,7 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
      */
     private Engine engine;
     private GLSurfaceView mGLView;
+    private boolean isOnTouchListener = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +49,9 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
 
 
-
-
+        if (this instanceof OnTouchListener) {
+            isOnTouchListener = true;
+        }
         setContentView(mGLView);
 
 
@@ -72,6 +77,7 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
         Shader.init(this);
         TextureFactory.init(this);
         SpriteCreator.init();
+        TouchManager.init();
     }
 
     private void setOrientation(Engine engine) {
@@ -101,5 +107,12 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
         return result;
     }
 
-
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (isOnTouchListener) {
+            ((OnTouchListener) this).onTouch(event.getX() - engine.getCamera().getResolutionX() / 2f, -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event);
+        }
+        TouchManager.getInstance().detectTouchEvent(event.getX() - engine.getCamera().getResolutionX() / 2f, -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event);
+        return false;
+    }
 }

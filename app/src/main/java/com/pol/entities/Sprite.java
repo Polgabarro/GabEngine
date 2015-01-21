@@ -18,7 +18,7 @@ public class Sprite extends Shape {
      * CONSTRUCTORS
      */
     @Deprecated //NOT USE
-    public Sprite(float x, float y, Texture texture) {
+    protected Sprite(float x, float y, Texture texture) {
         super(x, y);
         this.texture = texture;
     }

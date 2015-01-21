@@ -35,7 +35,8 @@ public class SpriteCreator {
         sprite.shapeIndex = new short[]{
                 0, 1, 2, 2, 3, 0
         };
-
+        sprite.setWidth(width);
+        sprite.setHeight(height);
         sprite.setShader(Shader.LoadShaders("shader/Sprite_VS.glsl", "shader/Sprite_FS.glsl"));
         sprite.initVertex();
         sprite.initIndex();
