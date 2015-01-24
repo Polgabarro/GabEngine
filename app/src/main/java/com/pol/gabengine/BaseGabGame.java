@@ -54,7 +54,6 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
         }
         setContentView(mGLView);
 
-
     }
 
 

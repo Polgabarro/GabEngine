@@ -2,8 +2,10 @@ package com.pol.gabengine;
 
 import android.view.MotionEvent;
 
+import com.pol.actions.ListAction;
 import com.pol.actions.MoveAction;
 import com.pol.actions.MoveToAction;
+import com.pol.actions.ScaleAction;
 import com.pol.camera.Camera;
 import com.pol.camera.CameraOrientation;
 import com.pol.engine.Engine;
@@ -144,6 +146,9 @@ public class Main extends BaseGabGame {
                 tank2.setPosition(posX, posY);
             }
         });
+        testSprite.setScale(2);
+        ListAction actions = new ListAction(new ScaleAction(1, 7, 1, false), new MoveToAction(0, 0, 50, 50, 2, false), new ScaleAction(7, 1, 1, false));
+        testSprite.addAction(actions);
         return scene;
     }
 

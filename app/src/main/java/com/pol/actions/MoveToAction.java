@@ -8,7 +8,7 @@ import com.pol.actions.easefunctions.EaseFunction;
 
 public class MoveToAction extends FiniteAction {
 
-    float initX, initY, diffX, diffY;
+    float initX, initY, diffX, diffY, finalX, finalY;
     /*
      * CONSTRUCTOR
      */
@@ -29,9 +29,11 @@ public class MoveToAction extends FiniteAction {
         this.initY = initY;
         this.diffX = finalX - initX;
         this.diffY = finalY - initY;
-
         this.totalTime = time;
         this.loop = loop;
+        this.finalX = finalX;
+        this.finalY = finalY;
+
     }
 
     /**
@@ -51,13 +53,47 @@ public class MoveToAction extends FiniteAction {
         this.diffX = finalX - initX;
         this.diffY = finalY - initY;
         this.totalTime = time;
+        this.finalX = finalX;
+        this.finalY = finalY;
         this.easeFunction = easeFunction;
     }
     /*
      * PUBLIC
      */
 
+    public float getInitX() {
+        return initX;
+    }
 
+    public void setInitX(float initX) {
+        this.initX = initX;
+    }
+
+    public float getInitY() {
+        return initY;
+    }
+
+    public void setInitY(float initY) {
+        this.initY = initY;
+    }
+
+    public float getFinalX() {
+        return finalX;
+    }
+
+    public void setFinalX(float finalX) {
+        this.diffX = finalX - initX;
+        this.finalX = finalX;
+    }
+
+    public float getFinalY() {
+        return finalY;
+    }
+
+    public void setFinalY(float finalY) {
+        this.diffY = finalY - initY;
+        this.finalY = finalY;
+    }
     /*
      *PROTECTED METHODS
      */

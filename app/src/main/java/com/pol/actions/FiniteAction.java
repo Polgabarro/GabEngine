@@ -27,9 +27,9 @@ public abstract class FiniteAction extends Action {
     /*
      * PUBLIC METHODS
      */
-    public void update(float elapsedTime) {
+    public boolean update(float elapsedTime) {
         if (finished)
-            return;
+            return true;
 
         if (!started && actionListener != null) {
             actionListener.onActionBegin(entity, this);
@@ -43,14 +43,14 @@ public abstract class FiniteAction extends Action {
                 if (actionListener != null)
                     actionListener.onActionEnd(entity, this);
             } else {
+                finished = true;
                 if (actionListener != null && !finished) {
-                    finished = true;
                     actionListener.onActionEnd(entity, this);
                     if (actionListener.autoRemove) {
                         actionListener = null;
                     }
                 }
-                return;
+                return true;
             }
         }
         calcPercentage();
@@ -58,7 +58,7 @@ public abstract class FiniteAction extends Action {
         if (actionListener != null)
             actionListener.onActionOn(entity, this);
 
-
+        return false;
     }
 
     /**

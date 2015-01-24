@@ -23,7 +23,8 @@ public class Entity {
     private int id;
     private float x = 0, y = 0, z = 0;
     private float rotation = 0;
-    private float scale = 1;
+    private float scaleX = 1;
+    private float scaleY = 1;
     private Entity parent = null;
     private float[] mScaleMatrix = new float[16];
     private float[] mTranslationMatrix = new float[16];
@@ -272,6 +273,62 @@ public class Entity {
     }
 
     /**
+     * Scale the entity
+     * @param scaleX component X of the scale
+     * @param scaleY component Y of the scale
+     */
+    public void setScale(float scaleX, float scaleY) {
+        modelChanged = true;
+        setScaling(scaleX, scaleY);
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
+
+    }
+
+    public float getScaleX() {
+        return scaleX;
+    }
+
+    /**
+     * Scale the entity
+     *
+     * @param scaleX component X of the scale
+     */
+    public void setScaleX(float scaleX) {
+        modelChanged = true;
+        setScaling(scaleX, 1);
+        this.scaleX = scaleX;
+    }
+
+    public float getScaleY() {
+        return scaleY;
+    }
+
+    /**
+     * Scale the entity
+     *
+     * @param scaleY component Y of the scale
+     */
+    public void setScaleY(float scaleY) {
+        modelChanged = true;
+        setScaling(1, scaleY);
+        this.scaleY = scaleY;
+    }
+
+    public float getScale() {
+        return scaleX == scaleY ? scaleX : null;
+    }
+
+    /**
+     * Scale the entity
+     *
+     * @param scale the scale factor
+     */
+    public void setScale(float scale) {
+        setScale(scale, scale);
+    }
+
+    /**
      * PRIVATE METHODS
      */
     private void makeModelTransformations() {
@@ -297,6 +354,11 @@ public class Entity {
 
     private void setTranslation(float x, float y, float z) {
         Matrix.translateM(mTranslationMatrix, 0, x, y, z);
+    }
+
+    private void setScaling(float scaleX, float scaleY) {
+        Matrix.setIdentityM(mScaleMatrix, 0);
+        Matrix.scaleM(mScaleMatrix,0,scaleX,scaleY,1);
     }
 
 }

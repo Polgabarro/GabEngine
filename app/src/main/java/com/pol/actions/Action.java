@@ -18,7 +18,7 @@ public abstract class Action {
     /*
      * PUBLIC METHODS
      */
-    public abstract void update(float elapsedTime);
+    public abstract boolean update(float elapsedTime);
 
 
     public void setEntity(Entity entity) {

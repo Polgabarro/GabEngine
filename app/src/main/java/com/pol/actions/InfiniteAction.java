@@ -5,8 +5,9 @@ package com.pol.actions;
  */
 public abstract class InfiniteAction extends Action {
     @Override
-    public void update(float elapsedTime) {
+    public boolean update(float elapsedTime) {
         calcPosition(elapsedTime);
+        return false;
     }
 
     public abstract void calcPosition(float elapsedTime);

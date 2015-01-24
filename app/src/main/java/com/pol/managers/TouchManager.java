@@ -40,7 +40,7 @@ public class TouchManager {
     public void detectTouchEvent(float posX, float posY, MotionEvent event) {
 
         for (Shape shape : shapesToucheables) {
-            if (((shape.getX() + (shape.getWidth() / 2f) >= posX) && (shape.getX() - (shape.getWidth() / 2f) <= posX)) && ((shape.getY() + (shape.getHeight() / 2f) >= posY) && (shape.getY() - (shape.getHeight() / 2f) <= posY))) {
+            if (((shape.getX() + (shape.getWidth() * shape.getScaleX() / 2f) >= posX) && (shape.getX() - (shape.getWidth() * shape.getScaleX() / 2f) <= posX)) && ((shape.getY() + (shape.getHeight() * shape.getScaleY() / 2f) >= posY) && (shape.getY() - (shape.getHeight() * shape.getScaleY() / 2f) <= posY))) {
                 shape.getOnTouchListener().onTouch(posX, posY, event);
             }
         }
