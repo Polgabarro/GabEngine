@@ -200,8 +200,8 @@ public class Entity {
      */
     public void removeAction() {
         if (action != null) {
-        this.action.removeEntity();
-        this.action = null;
+            this.action.removeEntity();
+            this.action = null;
         }
     }
 
@@ -274,6 +274,7 @@ public class Entity {
 
     /**
      * Scale the entity
+     *
      * @param scaleX component X of the scale
      * @param scaleY component Y of the scale
      */
@@ -334,14 +335,12 @@ public class Entity {
     private void makeModelTransformations() {
 
         if (modelChanged || parentChanged()) {
-            //Log.i("ENTER", "makeMODELENTRING ID:" + id);
             float[] temp = new float[16];
             Matrix.multiplyMM(temp, 0, mRotationMatrix, 0, mScaleMatrix, 0);
             Matrix.multiplyMM(mModelMatrix, 0, mTranslationMatrix, 0, temp, 0);
 
             if (parent != null)
                 Matrix.multiplyMM(mModelMatrix, 0, mModelMatrix, 0, parent.mModelMatrix, 0);
-
         }
     }
 
@@ -358,7 +357,7 @@ public class Entity {
 
     private void setScaling(float scaleX, float scaleY) {
         Matrix.setIdentityM(mScaleMatrix, 0);
-        Matrix.scaleM(mScaleMatrix,0,scaleX,scaleY,1);
+        Matrix.scaleM(mScaleMatrix, 0, scaleX, scaleY, 1);
     }
 
 }

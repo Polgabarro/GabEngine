@@ -2,9 +2,9 @@ package com.pol.gabengine;
 
 import android.view.MotionEvent;
 
-import com.pol.actions.ListAction;
 import com.pol.actions.MoveAction;
 import com.pol.actions.MoveToAction;
+import com.pol.actions.ParallelAction;
 import com.pol.actions.ScaleAction;
 import com.pol.camera.Camera;
 import com.pol.camera.CameraOrientation;
@@ -83,28 +83,6 @@ public class Main extends BaseGabGame {
         MoveToAction moveToAction = new MoveToAction(-300, 0, 300, 300, 4, false);
         //testShape3.addAction(moveToAction);
         MoveAction moveAction = new MoveAction(0, 600, 0, -300);
-
-       /* moveToAction.setActionListener(new ActionListener() {
-            @Override
-            public void onActionBegin(Entity actioned, FiniteAction action) {
-                //Log.i("ActionListener","Començo");
-            }
-
-            @Override
-            public void onActionOn(Entity actioned, FiniteAction action) {
-                //Log.i("ActionListener","EsticEnmig Temps:"+action.getTime()+"Temps Total:"+action.getTotalTime()+ "Percentatge:"+ action.getPercentage());
-            }
-
-            @Override
-            public void onActionEnd(Entity actioned, FiniteAction action) {
-                //Log.i("ActionListener","Acabo");
-            }
-        });
-        //testShape4 = ShapeCreator.createPolygon(200,200,5,100, new float[]{1,0,0});
-        /*
-        for(int i=0;i<test.length;i++){
-            test[i]=ShapeCreator.createRectangle(randInt(-768/2, 768/2),randInt(-1184/2,1184/2),100,100,randColor());
-        }*/
         testSprite = SpriteCreator.createSprite(0, 0, 100, 100, texture);
 
         tank = SpriteCreator.createSprite(50, 50, "tank.png");
@@ -147,7 +125,7 @@ public class Main extends BaseGabGame {
             }
         });
         testSprite.setScale(2);
-        ListAction actions = new ListAction(new ScaleAction(1, 7, 1, false), new MoveToAction(0, 0, 50, 50, 2, false), new ScaleAction(7, 1, 1, false));
+        ParallelAction actions = new ParallelAction(new ScaleAction(1, 2, 5, false), new MoveToAction(0, 0, 300, 50, 5, false));
         testSprite.addAction(actions);
         return scene;
     }

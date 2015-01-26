@@ -8,6 +8,7 @@ import com.pol.entities.Entity;
 public abstract class Action {
     protected Entity entity = null;
     protected boolean started = false;
+    protected boolean finished = false;
 
     /*
      * CONSTRUCTOR

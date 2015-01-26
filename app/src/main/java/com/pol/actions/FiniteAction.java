@@ -14,7 +14,7 @@ public abstract class FiniteAction extends Action {
     protected float percentage = 0;
     protected EaseFunction easeFunction;
     protected ActionListener actionListener = null;
-    protected boolean finished = false;
+
 
     /*
      * CONSTRUCTOR

@@ -8,34 +8,25 @@ import java.util.Arrays;
 /**
  * Created by Pol Gabarró<polgabarr@gmail.com> on 24/01/15.
  */
-public class ListAction extends Action {
+public class ParallelAction extends Action {
 
     private ArrayList<Action> actions;
-    private int actionNum = 0;
 
-
-    public ListAction(Action... actions) {
+    public ParallelAction(Action... actions) {
         this.actions = new ArrayList<Action>(Arrays.asList(actions));
         finished = false;
-
     }
 
     @Override
     public boolean update(float elapsedTime) {
         if (!finished) {
-            if (!actions.get(actionNum).update(elapsedTime)) {
-                return false;
-            } else {
-                actionNum++;
-                if (actionNum >= actions.size()) {
-                    finished = true;
-                    return true;
-                }
-                return false;
+            for (Action action : actions) {
+                action.update(elapsedTime);
+                finished = action.finished & finished;
             }
-
+            return finished;
         } else {
-            return true;
+            return finished;
         }
     }
 
@@ -48,12 +39,10 @@ public class ListAction extends Action {
     }
 
     public void reset() {
-        actionNum = 0;
         finished = false;
         for (Action action : actions) {
             action.reset();
         }
-
     }
 
 }
