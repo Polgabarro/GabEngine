@@ -12,31 +12,64 @@ public class Texture {
     protected int width;
     protected int height;
     protected FloatBuffer uvBuffer;
-    private float uvCords[];
+    private float uvCords[] = new float[]{
+            1, 0,  //bottom right
+            1, 1,  //top right
+            0, 1, //top left
+            0, 0 //bottom left
+    };
+    private boolean subRegion = false;
+    private boolean atlas = false;
 
     /*
      * PUBLIC METHODS
      */
-
     public FloatBuffer getUvBuffer() {
         return uvBuffer;
     }
+
 
     public int getGlTexture() {
         return glTexture;
     }
 
-    /*
-             * PROTECTED METHODS
-             */
-    protected void load() {
+    /**
+     * @return the texture width
+     */
+    public int getWidth() {
+        return width;
+    }
 
-        uvCords = new float[]{
-                1, 0,  //bottom right
-                1, 1,  //top right
-                0, 1, //top left
-                0, 0 //bottom left
-        };
+    /**
+     * @return the texture height
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * @param width    the subtexture height
+     * @param height   the subtexture width
+     * @param topLeftX the topLeft X component
+     * @param topLeftY the topLeft Y component
+     * @return the texture region
+     */
+    public Texture getTextureRegion(int width, int height, float topLeftX, float topLeftY) {
+        Texture texture = new Texture();
+        texture.glTexture = this.glTexture;
+        texture.width = width;
+        texture.height = height;
+        calcUVCords(width, height, topLeftX, topLeftY);
+        texture.load();
+        texture.subRegion = true;
+        atlas = true;
+        return texture;
+    }
+
+    /*
+     * PROTECTED METHODS
+     */
+    protected void load() {
         ByteBuffer bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
                 uvCords.length * 4);
@@ -46,15 +79,17 @@ public class Texture {
         uvBuffer.position(0);
     }
 
-    protected void load(float topLeft, float bottomLeft, float bottomRight, float topRight) {
-
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
+    /*
+     * PRIVATE METHODS
+     */
+    private void calcUVCords(int width, int height, float topLeftX, float topLeftY) {
+        uvCords[0] = (topLeftX + width) / this.width;
+        uvCords[1] = (topLeftY) / this.height;
+        uvCords[2] = uvCords[0];
+        uvCords[3] = (topLeftY + height) / this.height;
+        uvCords[4] = (topLeftX) / this.width;
+        uvCords[5] = uvCords[3];
+        uvCords[6] = uvCords[4];
+        uvCords[7] = uvCords[1];
     }
 }
