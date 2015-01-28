@@ -50,16 +50,16 @@ public class Texture {
     /**
      * @param width    the subtexture height
      * @param height   the subtexture width
-     * @param topLeftX the topLeft X component
-     * @param topLeftY the topLeft Y component
+     * @param bottomLeftX the topLeft X component
+     * @param bottomLeftY the topLeft Y component
      * @return the texture region
      */
-    public Texture getTextureRegion(int width, int height, float topLeftX, float topLeftY) {
+    public Texture getTextureRegion(int width, int height, float bottomLeftX, float bottomLeftY) {
         Texture texture = new Texture();
         texture.glTexture = this.glTexture;
         texture.width = width;
         texture.height = height;
-        calcUVCords(width, height, topLeftX, topLeftY);
+        calcUVCords(width, height, bottomLeftX, bottomLeftY);
         texture.load();
         texture.subRegion = true;
         atlas = true;
@@ -82,12 +82,12 @@ public class Texture {
     /*
      * PRIVATE METHODS
      */
-    private void calcUVCords(int width, int height, float topLeftX, float topLeftY) {
-        uvCords[0] = (topLeftX + width) / this.width;
-        uvCords[1] = (topLeftY) / this.height;
+    private void calcUVCords(int width, int height, float bottomLeftX, float bottomLeftY) {
+        uvCords[0] = (bottomLeftX + width) / this.width;
+        uvCords[1] = (bottomLeftY) / this.height;
         uvCords[2] = uvCords[0];
-        uvCords[3] = (topLeftY + height) / this.height;
-        uvCords[4] = (topLeftX) / this.width;
+        uvCords[3] = (bottomLeftY + height) / this.height;
+        uvCords[4] = (bottomLeftX) / this.width;
         uvCords[5] = uvCords[3];
         uvCords[6] = uvCords[4];
         uvCords[7] = uvCords[1];
