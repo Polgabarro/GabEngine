@@ -35,7 +35,7 @@ public class TextureFactory {
         return texture;
     }
 
-    private static int loadGLTextureFromBitmap(Bitmap bitmap) {
+    protected static int loadGLTextureFromBitmap(Bitmap bitmap) {
         int textureId[] = new int[1];
         GLES20.glGenTextures(1, textureId, 0);
         //bind texture
@@ -47,11 +47,13 @@ public class TextureFactory {
         //Use Android to load Texture
         //GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bitmap, 0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
         bitmap.recycle();
         if (textureId[0] == 0) {
             throw new RuntimeException("Error loading texture.");
         }
         Log.i("GabEngine", "TextureLoad! ID:" + textureId[0]);
+
         return textureId[0];
     }
 

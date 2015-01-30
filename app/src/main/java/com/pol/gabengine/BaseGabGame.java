@@ -11,6 +11,7 @@ import com.pol.engine.Engine;
 import com.pol.entities.Scene;
 import com.pol.entities.SpriteCreator;
 import com.pol.graphics.Shader;
+import com.pol.graphics.textures.FontFactory;
 import com.pol.graphics.textures.TextureFactory;
 import com.pol.managers.TouchManager;
 import com.pol.utils.io.OnTouchListener;
@@ -75,8 +76,10 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
     private void init() {
         Shader.init(this);
         TextureFactory.init(this);
+        FontFactory.init(this);
         SpriteCreator.init();
         TouchManager.init();
+
     }
 
     private void setOrientation(Engine engine) {

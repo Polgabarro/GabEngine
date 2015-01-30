@@ -17,6 +17,8 @@ import com.pol.entities.SpriteCreator;
 import com.pol.entities.background.Background;
 import com.pol.entities.updateModifier.TimeElapsedListener;
 import com.pol.graphics.FPSCounter;
+import com.pol.graphics.textures.Font;
+import com.pol.graphics.textures.FontFactory;
 import com.pol.graphics.textures.Texture;
 import com.pol.graphics.textures.TextureFactory;
 import com.pol.utils.io.OnTouchListener;
@@ -33,6 +35,7 @@ public class Main extends BaseGabGame {
     Sprite testSprite;
     Sprite tank;
     Texture texture;
+    Font font;
     Shape[] test = new Shape[3000];
 
     public static int randInt(int min, int max) {
@@ -67,6 +70,8 @@ public class Main extends BaseGabGame {
     @Override
     public void onLoadResources() {
         texture = TextureFactory.LoadTexture("face_box.png");
+        font = FontFactory.LoadFont("orange.ttf", 40);
+
 
     }
 
@@ -92,7 +97,7 @@ public class Main extends BaseGabGame {
 
     @Override
     public Scene onLoadScene() {
-        scene.attachChild(testSprite);
+        //scene.attachChild(testSprite);
         testSprite.addUpdateListener(new TimeElapsedListener(5) {
             @Override
             public void onTimeElapsed() {
@@ -101,7 +106,7 @@ public class Main extends BaseGabGame {
                 tank.setZIndex(-5);
             }
         });
-        scene.attachChild(tank);
+        //scene.attachChild(tank);
         //scene.attachChild(testShape4);
         //scene.attachChild(test);
         //testShape.attachChild(testShape2);
@@ -109,7 +114,7 @@ public class Main extends BaseGabGame {
         //
         //testShape.setPosition(-200, 100);
         final Sprite tank2 = SpriteCreator.createSprite(-200, 0, "tank.png");
-        scene.attachChild(tank2);
+        //scene.attachChild(tank2);
 
         testSprite.attachOnTouchListener(new OnTouchListener() {
             @Override
@@ -127,6 +132,20 @@ public class Main extends BaseGabGame {
         testSprite.setScale(2);
         ParallelAction actions = new ParallelAction(new ScaleAction(1, 2, 5, false), new MoveToAction(0, 0, 300, 50, 5, false));
         testSprite.addAction(actions);
+
+
+        Texture letter = font.getLetter('A');
+
+        Shape shape = ShapeCreator.createRectangle(0, 0, font.getWidth(), font.getHeight());
+        shape.setColor(1, 0, 0);
+        scene.attachChild(shape);
+
+        Sprite lletres = SpriteCreator.createSprite(0, 0, font);
+        scene.attachChild(lletres);
+        Sprite lletra = SpriteCreator.createSprite(0, -100, letter);
+        lletra.setScale(2);
+        scene.attachChild(lletra);
+        scene.attachChild(testSprite);
         return scene;
     }
 

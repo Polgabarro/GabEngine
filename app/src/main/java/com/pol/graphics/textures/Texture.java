@@ -12,14 +12,14 @@ public class Texture {
     protected int width;
     protected int height;
     protected FloatBuffer uvBuffer;
+    protected boolean subRegion = false;
+    protected boolean atlas = false;
     private float uvCords[] = new float[]{
-            1, 0,  //bottom right
-            1, 1,  //top right
+            0, 0, //bottom left
             0, 1, //top left
-            0, 0 //bottom left
+            1, 1,  //top right
+            1, 0  //bottom right
     };
-    private boolean subRegion = false;
-    private boolean atlas = false;
 
     /*
      * PUBLIC METHODS
@@ -48,18 +48,18 @@ public class Texture {
     }
 
     /**
-     * @param width    the subtexture height
-     * @param height   the subtexture width
-     * @param bottomLeftX the topLeft X component
-     * @param bottomLeftY the topLeft Y component
+     * @param width    the subTexture height
+     * @param height   the subTexture width
+     * @param topLeftX the topLeft X component
+     * @param topLeftY the topLeft Y component
      * @return the texture region
      */
-    public Texture getTextureRegion(int width, int height, float bottomLeftX, float bottomLeftY) {
+    public Texture getTextureRegion(int width, int height, float topLeftX, float topLeftY) {
         Texture texture = new Texture();
         texture.glTexture = this.glTexture;
         texture.width = width;
         texture.height = height;
-        calcUVCords(width, height, bottomLeftX, bottomLeftY);
+        calcUVCords(width, height, topLeftX, topLeftY, texture);
         texture.load();
         texture.subRegion = true;
         atlas = true;
@@ -70,6 +70,7 @@ public class Texture {
      * PROTECTED METHODS
      */
     protected void load() {
+
         ByteBuffer bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
                 uvCords.length * 4);
@@ -79,17 +80,21 @@ public class Texture {
         uvBuffer.position(0);
     }
 
-    /*
+
+    protected void calcUVCords(float width, float height, float bottomLeftX, float bottomLeftY, Texture texture) {
+        texture.uvCords[0] = (bottomLeftX) / this.width;
+        texture.uvCords[1] = 1 - (this.height - bottomLeftY) / this.height;
+
+        texture.uvCords[2] = texture.uvCords[0];
+        texture.uvCords[3] = 1 - (this.height - bottomLeftY - height) / this.height;
+
+        texture.uvCords[4] = (bottomLeftX + width) / this.width;
+        texture.uvCords[5] = texture.uvCords[3];
+
+        texture.uvCords[6] = texture.uvCords[4];
+        texture.uvCords[7] = texture.uvCords[1];
+    }
+        /*
      * PRIVATE METHODS
      */
-    private void calcUVCords(int width, int height, float bottomLeftX, float bottomLeftY) {
-        uvCords[0] = (bottomLeftX + width) / this.width;
-        uvCords[1] = (bottomLeftY) / this.height;
-        uvCords[2] = uvCords[0];
-        uvCords[3] = (bottomLeftY + height) / this.height;
-        uvCords[4] = (bottomLeftX) / this.width;
-        uvCords[5] = uvCords[3];
-        uvCords[6] = uvCords[4];
-        uvCords[7] = uvCords[1];
-    }
 }

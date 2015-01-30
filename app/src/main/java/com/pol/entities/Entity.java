@@ -20,11 +20,11 @@ public class Entity {
     protected ArrayList<Entity> entities;
     //MODEL MATRIX'S
     protected float[] mModelMatrix = new float[16];
+    protected float scaleX = 1;
+    protected float scaleY = 1;
     private int id;
     private float x = 0, y = 0, z = 0;
     private float rotation = 0;
-    private float scaleX = 1;
-    private float scaleY = 1;
     private Entity parent = null;
     private float[] mScaleMatrix = new float[16];
     private float[] mTranslationMatrix = new float[16];
