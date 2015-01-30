@@ -1,7 +1,8 @@
 GabEngine
 =========
 
-Simple OpenGL Engine for Android
+
+Simple Native OpenGL Game Engine for Android
 
 NOTE: IS NOT FUNCTIONAL (TEST ONLY)
 ===================================
@@ -11,6 +12,7 @@ NOTE: IS NOT FUNCTIONAL (TEST ONLY)
 * Draw Sprites
 * Scale, translate and rotate
 * Animate entities
-* Make animations look awesome with easyfunctions
+* Make animations look awesome with easeFunctions
+* Touchable sprites and shapes!
 
 Wait for more improvements!
