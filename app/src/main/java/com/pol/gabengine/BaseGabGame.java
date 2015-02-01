@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import com.pol.engine.Engine;
+import com.pol.entities.Hud;
 import com.pol.entities.Scene;
 import com.pol.entities.SpriteCreator;
+import com.pol.entities.TextCreator;
 import com.pol.graphics.Shader;
 import com.pol.graphics.textures.FontFactory;
 import com.pol.graphics.textures.TextureFactory;
@@ -79,6 +81,7 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
         FontFactory.init(this);
         SpriteCreator.init();
         TouchManager.init();
+        TextCreator.init();
 
     }
 
@@ -112,9 +115,27 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (isOnTouchListener) {
-            ((OnTouchListener) this).onTouch(event.getX() - engine.getCamera().getResolutionX() / 2f, -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event);
+            ((OnTouchListener) this).onTouch(event.getX() - engine.getCamera().getResolutionX() / 2f + engine.getCamera().getX(), -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f) + engine.getCamera().getY(), event);
         }
-        TouchManager.getInstance().detectTouchEvent(event.getX() - engine.getCamera().getResolutionX() / 2f, -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event);
+        TouchManager.getInstance().detectTouchEvent(event.getX() - engine.getCamera().getResolutionX() / 2f + engine.getCamera().getX(), -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f) + engine.getCamera().getY(), event);
+        TouchManager.getInstance().detectHudTouchEvent(event.getX() - engine.getCamera().getResolutionX() / 2f, -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event);
+
         return false;
+    }
+
+    /**
+     * Set a HUD
+     *
+     * @param hud
+     */
+    public void setHud(Hud hud) {
+        engine.setHud(hud);
+    }
+
+    /**
+     * Remove the Hud
+     */
+    public void removeHud() {
+        engine.removeHud();
     }
 }

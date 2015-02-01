@@ -17,6 +17,7 @@ public class Entity {
      * VARIABLES
      */
     private static int totalEntityCreated = 0;
+    public boolean inHud = false;
     protected ArrayList<Entity> entities;
     //MODEL MATRIX'S
     protected float[] mModelMatrix = new float[16];
@@ -29,13 +30,10 @@ public class Entity {
     private float[] mScaleMatrix = new float[16];
     private float[] mTranslationMatrix = new float[16];
     private float[] mRotationMatrix = new float[16];
-
-
     private boolean modelChanged = false;
-
     //ACTIONS
     private Action action = null;
-    private UpdateListener updateListener = null;
+    private ArrayList<UpdateListener> updateListeners = new ArrayList<UpdateListener>();
 
 
     /**
@@ -162,8 +160,10 @@ public class Entity {
         if (action != null)
             action.update(elapsedTime);
 
-        if (updateListener != null)
+        if (updateListeners.size() != 0) {
+            for (UpdateListener updateListener : updateListeners)
             updateListener.update(elapsedTime);
+        }
 
         makeModelTransformations();
 
@@ -181,7 +181,6 @@ public class Entity {
         for (int i = 0; i < length; i++) {
             entities.get(i).render(mVPMatrix);
         }
-
     }
 
 
@@ -220,24 +219,25 @@ public class Entity {
      * @param updateListener the action
      */
     public void addUpdateListener(UpdateListener updateListener) {
-        this.updateListener = updateListener;
+        updateListeners.add(updateListener);
     }
 
     /**
      * Remove the Action of Entity
      */
-    public void removeUpdateListener() {
-        this.updateListener = null;
+    public void removeAllUpdateListeners() {
+        updateListeners.clear();
     }
 
     /**
-     * Return action from entity
-     *
-     * @return the action
+     * Remove an update Listener
+     * @param updateListener
+     * @return true if the remove is successful
      */
-    public UpdateListener updateListener() {
-        return updateListener;
+    public boolean removeUpdateListener(UpdateListener updateListener) {
+        return updateListeners.remove(updateListener);
     }
+
 
     /**
      * @return the Z Index

@@ -5,17 +5,21 @@ import android.view.MotionEvent;
 import com.pol.actions.MoveAction;
 import com.pol.actions.MoveToAction;
 import com.pol.actions.ParallelAction;
-import com.pol.actions.ScaleAction;
+import com.pol.actions.ZoomAction;
 import com.pol.camera.Camera;
 import com.pol.camera.CameraOrientation;
 import com.pol.engine.Engine;
+import com.pol.entities.Hud;
 import com.pol.entities.Scene;
 import com.pol.entities.Shape;
 import com.pol.entities.ShapeCreator;
 import com.pol.entities.Sprite;
 import com.pol.entities.SpriteCreator;
+import com.pol.entities.Text;
+import com.pol.entities.TextCreator;
 import com.pol.entities.background.Background;
 import com.pol.entities.updateModifier.TimeElapsedListener;
+import com.pol.entities.updateModifier.UpdateListener;
 import com.pol.graphics.FPSCounter;
 import com.pol.graphics.textures.Font;
 import com.pol.graphics.textures.FontFactory;
@@ -37,6 +41,8 @@ public class Main extends BaseGabGame {
     Texture texture;
     Font font;
     Shape[] test = new Shape[3000];
+    FPSCounter fpsCounter;
+    Camera camera;
 
     public static int randInt(int min, int max) {
 
@@ -62,15 +68,16 @@ public class Main extends BaseGabGame {
 
     @Override
     public void onLoadOptions(Engine engine) {
-        Camera camera = new Camera(768, 1184, CameraOrientation.PORTRAIT_FIXED);
+        camera = new Camera(768, 1184, CameraOrientation.PORTRAIT_FIXED);
         engine.setCamera(camera);
-        engine.setFpsCounter(new FPSCounter());
+        fpsCounter = new FPSCounter();
+        engine.setFpsCounter(fpsCounter);
     }
 
     @Override
     public void onLoadResources() {
         texture = TextureFactory.LoadTexture("face_box.png");
-        font = FontFactory.LoadFont("orange.ttf", 40);
+        font = FontFactory.LoadFont("orange.ttf", 40, 12, 0);
 
 
     }
@@ -130,7 +137,7 @@ public class Main extends BaseGabGame {
             }
         });
         testSprite.setScale(2);
-        ParallelAction actions = new ParallelAction(new ScaleAction(1, 2, 5, false), new MoveToAction(0, 0, 300, 50, 5, false));
+        ParallelAction actions = new ParallelAction(new MoveToAction(0, 0, 300, 50, 5, false));
         testSprite.addAction(actions);
 
 
@@ -140,12 +147,22 @@ public class Main extends BaseGabGame {
         shape.setColor(1, 0, 0);
         scene.attachChild(shape);
 
-        Sprite lletres = SpriteCreator.createSprite(0, 0, font);
-        scene.attachChild(lletres);
-        Sprite lletra = SpriteCreator.createSprite(0, -100, letter);
-        lletra.setScale(2);
-        scene.attachChild(lletra);
+
         scene.attachChild(testSprite);
+
+        final Text text = TextCreator.createText(-350, 480, "Fps: 60", "orange.ttf", 70);
+        text.addUpdateListener(new UpdateListener() {
+            @Override
+            public void update(float elapsedTime) {
+                text.setText("Fps: " + fpsCounter.getFPS());
+            }
+        });
+        Hud hud = new Hud();
+        hud.attachChild(text);
+        setHud(hud);
+        //camera.addAction(new MoveToAction(0,0,500,500,5,false));
+        camera.followEntity(testSprite);
+        camera.addAction(new ZoomAction(1, 0.5f, 5, false));
         return scene;
     }
 

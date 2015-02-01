@@ -8,18 +8,18 @@ import java.nio.FloatBuffer;
  * Created by Pol Gabarró<polgabarr@gmail.com> on 12/01/15.
  */
 public class Texture {
+    public float uvCords[] = new float[]{
+            0, 0, //bottom left
+            0, 1, //top left
+            1, 1,  //top right
+            1, 0  //bottom right
+    };
     protected int glTexture;
     protected int width;
     protected int height;
     protected FloatBuffer uvBuffer;
     protected boolean subRegion = false;
     protected boolean atlas = false;
-    private float uvCords[] = new float[]{
-            0, 0, //bottom left
-            0, 1, //top left
-            1, 1,  //top right
-            1, 0  //bottom right
-    };
 
     /*
      * PUBLIC METHODS

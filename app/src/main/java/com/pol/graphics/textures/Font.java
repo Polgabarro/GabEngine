@@ -10,13 +10,13 @@ public class Font extends Texture {
     public float fontAscent;
     public float fontDescent;
     public int textureId;
-
     public float charWidthMax;
     public float charHeight;
     public int cellWidth, cellHeight;
     public int rowCnt, colCnt;
     public float scaleX, scaleY;
     public float spaceX;
+    protected int size;
     protected int fontPadX, fontPadY;
     private Texture[] charRgn;
 
@@ -43,9 +43,7 @@ public class Font extends Texture {
         charRgn = new Texture[FontFactory.CHAR_CNT];
 
         for (int c = 0; c < FontFactory.CHAR_CNT; c++) {
-            charRgn[c] = getTextureRegion(cellWidth - 1, cellHeight - 1, x, y);
-            //TODO
-            //charRgn[c] = getFontRegion(cellWidth-1,cellHeight-1, x,y);
+            charRgn[c] = getFontRegion(cellWidth - 1, cellHeight - 1, x, y);
             x += cellWidth;
             if (x + cellWidth > width) {
                 x = 0;

@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 import com.pol.camera.Camera;
+import com.pol.entities.Hud;
 import com.pol.entities.Scene;
 import com.pol.gabengine.BaseGabGame;
 import com.pol.graphics.FPSCounter;
@@ -22,6 +23,7 @@ public class Engine implements GLSurfaceView.Renderer {
     public Scene scene = null;
     public BaseGabGame context;
     private Camera camera = null;
+    private Hud hud = null;
 
     private float elapsedTime = 1L / 60L;
     private long lastTime = 0L;
@@ -92,6 +94,10 @@ public class Engine implements GLSurfaceView.Renderer {
              * UPDATE
              */
             scene.update(elapsedTime);
+            camera.update(elapsedTime);
+            if (hud != null) {
+                hud.update(elapsedTime);
+            }
             /**
              * RENDER
              */
@@ -99,6 +105,9 @@ public class Engine implements GLSurfaceView.Renderer {
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
             GLES20.glClearColor(color[0], color[1], color[2], 1);
             scene.render(camera.getmVPMatrix());
+            if (hud != null) {
+                hud.render(camera.getHudmVPMatrix());
+            }
         }
     }
 
@@ -135,5 +144,13 @@ public class Engine implements GLSurfaceView.Renderer {
      */
     public void setFpsCounter(FPSCounter fpsCounter) {
         this.fpsCounter = fpsCounter;
+    }
+
+    public void setHud(Hud hud) {
+        this.hud = hud;
+    }
+
+    public void removeHud() {
+        this.hud = hud;
     }
 }

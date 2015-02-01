@@ -122,6 +122,8 @@ public class Shape extends Entity {
     @Override
     public void render(float[] mVPMatrix) {
         //super.render(mVPMatrix);
+        if (scaleX < 0 || scaleY < 0)
+            GLES20.glDisable(GLES20.GL_CULL_FACE);
 
         GLES20.glUseProgram(mProgram);
 
@@ -153,6 +155,8 @@ public class Shape extends Entity {
         for (int i = 0; i < length; i++) {
             entities.get(i).render(mVPMatrix);
         }
+        if (scaleX < 0 || scaleY < 0)
+            GLES20.glEnable(GLES20.GL_CULL_FACE);
 
     }
 
@@ -162,7 +166,11 @@ public class Shape extends Entity {
      */
     public void attachOnTouchListener(OnTouchListener onTouchListener) {
         this.onTouchListener = onTouchListener;
-        TouchManager.getInstance().addTouchDetection(this);
+        if (inHud) {
+
+        } else {
+            TouchManager.getInstance().addTouchDetection(this);
+        }
     }
 
     /**

@@ -8,7 +8,7 @@ import android.util.Log;
 public class FPSCounter {
 
     private int frames = 0;
-    private int savedFrames = 0;
+    private int savedFrames = 60;
     private float sumTime = 0;
     private boolean isLogged;
 
@@ -34,8 +34,8 @@ public class FPSCounter {
 
         if (sumTime > 1f) {
             if (isLogged)
-            Log.d("FPSCounter", "fps: " + frames);
-            savedFrames =frames;
+                Log.d("FPSCounter", "fps: " + frames);
+            savedFrames = frames;
             frames = 0;
             sumTime = 0;
         }

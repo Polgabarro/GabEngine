@@ -23,6 +23,7 @@ public class FontFactory {
     public final static int FONT_SIZE_MIN = 6;
     public final static int FONT_SIZE_MAX = 180;
     public final static int CHAR_BATCH_SIZE = 100;
+    private static Font defaultFont;
 
 
     private static Activity context = null;
@@ -32,13 +33,27 @@ public class FontFactory {
      */
 
     /**
-     * Load a ASCII font and save and return a font object
+     * Load a font and return a font object
      *
      * @param fontName The font name
      * @param size     The font size
      * @return the font
      */
     public static Font LoadFont(String fontName, float size) {
+        return LoadFont(fontName, size, 0, 0);
+    }
+
+    /**
+     * Load a font and return a font object
+     * NOTE: Use this only if you have glyphs overlaps
+     *
+     * @param fontName The font name
+     * @param size     The font size
+     * @param padX     The padding X size of a glyph
+     * @param padY     The padding Y size of a glyph
+     * @return the font
+     */
+    public static Font LoadFont(String fontName, float size, int padX, int padY) {
         Bitmap bitmap = null;
         int textureSize;
         Font font = new Font();
@@ -58,6 +73,9 @@ public class FontFactory {
         font.fontHeight = (float) Math.ceil(Math.abs(fm.bottom) + Math.abs(fm.top));
         font.fontAscent = (float) Math.ceil(Math.abs(fm.ascent));
         font.fontDescent = (float) Math.ceil(Math.abs(fm.descent));
+        font.fontPadX = padX;
+        font.fontPadY = padY;
+        font.size = (int) size;
 
         //GET FONT LETTER WITH
         char[] s = new char[2];
@@ -128,12 +146,28 @@ public class FontFactory {
         font.width = bitmap.getWidth();
         font.height = bitmap.getHeight();
 
-        //TEST ONLY TODO
-        font.load();
-        //TEST ONLY
+
+        //font.load();
+
         font.loadFont();
 
         return font;
+    }
+
+    /**
+     * Load the default font and return a font object
+     *
+     * @param size The font size
+     * @return
+     */
+    public static Font LoadFont(int size) {
+        if (defaultFont == null) {
+            defaultFont = LoadFont("", size);
+        }
+        if (defaultFont.size != size) {
+            defaultFont = LoadFont("", size);
+        }
+        return defaultFont;
     }
 
     /*
@@ -170,9 +204,12 @@ public class FontFactory {
 
     public static void init(Activity context) {
         FontFactory.context = context;
+        defaultFont = null;
     }
 
     public void loadFontCharWidth() {
 
     }
+
+
 }
