@@ -2,6 +2,7 @@ package com.pol.managers;
 
 import android.view.MotionEvent;
 
+import com.pol.camera.Camera;
 import com.pol.entities.Shape;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class TouchManager {
     private static TouchManager ourInstance = null;
 
     private ArrayList<Shape> shapesToucheables;
-    private ArrayList<Shape> HUDshapesToucheables = null;
+
 
     private TouchManager() {
         shapesToucheables = new ArrayList<Shape>();
@@ -34,43 +35,32 @@ public class TouchManager {
         shapesToucheables.add(shape);
     }
 
-    public void addHUDTouchDetection(Shape shape) {
-        if (HUDshapesToucheables == null) {
-            HUDshapesToucheables = new ArrayList<Shape>();
-        }
-        shapesToucheables.add(shape);
-    }
 
     public void removeTouchDetection(Shape shape) {
         shapesToucheables.remove(shape);
     }
 
-    public void removeHUDTouchDetection(Shape shape) {
 
-    }
+    public void detectTouchEvent(float posX, float posY, MotionEvent event, Camera camera) {
 
-    public void detectTouchEvent(float posX, float posY, MotionEvent event) {
+        float camX = camera.getX();
+        float camY = camera.getY();
+        float zoom = camera.getZoom();
 
         for (Shape shape : shapesToucheables) {
-            if (shape.hasParent()) {
+
+            if (shape.isRootInHud()) {
                 if (((shape.getX() + (shape.getWidth() * shape.getScaleX() / 2f) >= posX) && (shape.getX() - (shape.getWidth() * shape.getScaleX() / 2f) <= posX)) && ((shape.getY() + (shape.getHeight() * shape.getScaleY() / 2f) >= posY) && (shape.getY() - (shape.getHeight() * shape.getScaleY() / 2f) <= posY))) {
                     shape.getOnTouchListener().onTouch(posX, posY, event);
                 }
-            }
-        }
-    }
-
-    public void detectHudTouchEvent(float posX, float posY, MotionEvent event) {
-        if (HUDshapesToucheables != null) {
-            for (Shape shape : HUDshapesToucheables) {
-                if (shape.hasParent()) {
-                    if (((shape.getX() + (shape.getWidth() * shape.getScaleX() / 2f) >= posX) && (shape.getX() - (shape.getWidth() * shape.getScaleX() / 2f) <= posX)) && ((shape.getY() + (shape.getHeight() * shape.getScaleY() / 2f) >= posY) && (shape.getY() - (shape.getHeight() * shape.getScaleY() / 2f) <= posY))) {
-                        shape.getOnTouchListener().onTouch(posX, posY, event);
-                    }
+            } else if (shape.isRootInScene()) {
+                if (((shape.getX() + (shape.getWidth() * shape.getScaleX() * zoom / 2f) >= posX + camX) && (shape.getX() - (shape.getWidth() * shape.getScaleX() * zoom / 2f) <= posX + camX)) && ((shape.getY() + (shape.getHeight() * shape.getScaleY() * zoom / 2f) >= posY + camY) && (shape.getY() - (shape.getHeight() * shape.getScaleY() * zoom / 2f) <= posY + camY))) {
+                    shape.getOnTouchListener().onTouch(posX + camX, posY + camY, event);
                 }
             }
 
         }
     }
+
 
 }

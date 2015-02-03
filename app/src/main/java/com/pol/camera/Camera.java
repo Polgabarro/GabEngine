@@ -42,10 +42,10 @@ public class Camera extends Entity {
 
         float ratio = (float) resolutionX / resolutionY;
 
-        Matrix.orthoM(mProjectionMatrix, 0, -resolutionX / 2f + getX(), resolutionX / 2f + getX(), -resolutionY / 2f + getY(), resolutionY / 2f+getY(), -5, 50);
+        Matrix.orthoM(mProjectionMatrix, 0, -resolutionX / 2f + getX(), resolutionX / 2f + getX(), -resolutionY / 2f + getY(), resolutionY / 2f + getY(), -5, 50);
         Matrix.multiplyMM(mVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        createHudmVPMatrix(resolutionX,resolutionY, cameraOrientation);
+        createHudmVPMatrix(resolutionX, resolutionY, cameraOrientation);
 
     }
 
@@ -57,7 +57,7 @@ public class Camera extends Entity {
      * @param cameraOrientation the camera orientation
      */
     public Camera(int resolutionX, int resolutionY, CameraOrientation cameraOrientation) {
-        this(0, 0, resolutionX,resolutionY,cameraOrientation);
+        this(0, 0, resolutionX, resolutionY, cameraOrientation);
     }
 
     public int getResolutionX() {
@@ -72,7 +72,7 @@ public class Camera extends Entity {
         return mVPMatrix;
     }
 
-    public float[] getHudmVPMatrix(){
+    public float[] getHudmVPMatrix() {
         return hudmVPMatrix;
     }
     /**
@@ -111,6 +111,7 @@ public class Camera extends Entity {
 
     /**
      * Follow an entity
+     *
      * @param entity
      */
     public void followEntity(final Entity entity) {
@@ -150,6 +151,13 @@ public class Camera extends Entity {
     }
 
     /**
+     * @return the zoom
+     */
+    public float getZoom() {
+        return getScale();
+    }
+
+    /**
      * SetZoom
      *
      * @param zoom
@@ -158,7 +166,6 @@ public class Camera extends Entity {
         setScale(zoom);
         updateViewMatrix();
     }
-
 
     /**
      * PRIVATE METHODS

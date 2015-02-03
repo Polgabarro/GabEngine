@@ -17,12 +17,14 @@ public class Entity {
      * VARIABLES
      */
     private static int totalEntityCreated = 0;
-    public boolean inHud = false;
+
     protected ArrayList<Entity> entities;
     //MODEL MATRIX'S
     protected float[] mModelMatrix = new float[16];
     protected float scaleX = 1;
     protected float scaleY = 1;
+    protected boolean inHud = false;
+    protected boolean inScene = false;
     private int id;
     private float x = 0, y = 0, z = 0;
     private float rotation = 0;
@@ -149,9 +151,9 @@ public class Entity {
      *
      * @param entity
      */
-    public void removeChild(Entity entity) {
+    public void detachChild(Entity entity) {
         entity.parent = null;
-        entity.removeChild(entity);
+        entity.detachChild(entity);
     }
 
 
@@ -190,6 +192,9 @@ public class Entity {
      * @param action the action
      */
     public void addAction(Action action) {
+        if (this.action != null) {
+            removeAction();
+        }
         this.action = action;
         this.action.setEntity(this);
     }
@@ -329,6 +334,49 @@ public class Entity {
         setScale(scale, scale);
     }
 
+    /**
+     * @return true if this entity is attached in Scene
+     */
+    public boolean isRootInScene() {
+        Entity entity = this;
+
+        if (entity.inScene) {
+            return true;
+        }
+
+        while (true) {
+            if (entity.hasParent()) {
+                entity = parent;
+                if (entity.inScene) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @return true if this entity is attached in HUD
+     */
+    public boolean isRootInHud() {
+        Entity entity = this;
+
+        if (entity.inHud) {
+            return true;
+        }
+
+        while (true) {
+            if (entity.hasParent()) {
+                entity = parent;
+                if (entity.inHud) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
     /**
      * PRIVATE METHODS
      */

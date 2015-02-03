@@ -19,6 +19,41 @@ public class Scene extends Entity {
         this.background = background;
     }
 
+    /**
+     * Attach a child
+     *
+     * @param entity The entity
+     */
+    @Override
+    public void attachChild(Entity entity) {
+        super.attachChild(entity);
+        entity.inScene = true;
+    }
+
+    /**
+     * Attach a child
+     *
+     * @param entities Array of entities
+     */
+    @Override
+    public void attachChild(Entity[] entities) {
+        super.attachChild(entities);
+        for (Entity entity : entities) {
+            entity.inScene = true;
+        }
+    }
+
+    /**
+     * Remove the child
+     *
+     * @param entity
+     */
+    @Override
+    public void detachChild(Entity entity) {
+        super.detachChild(entity);
+        entity.inScene = false;
+    }
+
     public Background getBackground() {
         return background;
     }

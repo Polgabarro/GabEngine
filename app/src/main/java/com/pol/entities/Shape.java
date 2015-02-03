@@ -61,7 +61,6 @@ public class Shape extends Entity {
     }
 
     /**
-     *
      * @return the color
      */
     public float[] getColor() {
@@ -162,15 +161,12 @@ public class Shape extends Entity {
 
     /**
      * Set Touch Listener to a shape
+     *
      * @param onTouchListener
      */
     public void attachOnTouchListener(OnTouchListener onTouchListener) {
         this.onTouchListener = onTouchListener;
-        if (inHud) {
-
-        } else {
-            TouchManager.getInstance().addTouchDetection(this);
-        }
+        TouchManager.getInstance().addTouchDetection(this);
     }
 
     /**
@@ -208,6 +204,6 @@ public class Shape extends Entity {
     }
     /**
      * PRIVATE METHODS
- */
+     */
 
 }

@@ -1,11 +1,13 @@
 package com.pol.graphics.textures;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
+
+import com.pol.engine.SafeUpdateListener;
+import com.pol.gabengine.BaseGabGame;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +17,11 @@ import java.io.InputStream;
  */
 public class TextureFactory {
 
-    private static Activity context = null;
+    private static BaseGabGame context = null;
+
+    public static void init(BaseGabGame context) {
+        TextureFactory.context = context;
+    }
 
     public static Texture LoadTexture(String textureName) {
         Bitmap bitmap = null;
@@ -35,6 +41,10 @@ public class TextureFactory {
         return texture;
     }
 
+
+    /**
+     * PROTECTED STATIC METHODS
+     */
     protected static int loadGLTextureFromBitmap(Bitmap bitmap) {
         int textureId[] = new int[1];
         GLES20.glGenTextures(1, textureId, 0);
@@ -57,7 +67,15 @@ public class TextureFactory {
         return textureId[0];
     }
 
-    public static void init(Activity context) {
-        TextureFactory.context = context;
+    protected static void deleteTexture(final int[] texture) {
+        context.getEngine().setSafeOnThreadUpdate(new SafeUpdateListener() {
+            @Override
+            public void onUpdate(float elapsedTime) {
+                GLES20.glDeleteTextures(1, texture, 0);
+            }
+        });
+
     }
+
+
 }

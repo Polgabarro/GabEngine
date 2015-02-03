@@ -66,6 +66,14 @@ public class Texture {
         return texture;
     }
 
+    /**
+     * Delete Texture from memory
+     */
+    public void deleteTexture() {
+        int[] texture = {glTexture};
+        TextureFactory.deleteTexture(texture);
+    }
+
     /*
      * PROTECTED METHODS
      */

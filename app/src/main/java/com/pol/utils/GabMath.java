@@ -36,7 +36,6 @@ public class GabMath {
         }
         circumferenceIndex[count] = 0;
         circumferenceIndex[count + 1] = (short) precision;
-
     }
 
     private static float getXCircumferencePoints(float radius, float k) {

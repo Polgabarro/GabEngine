@@ -72,6 +72,7 @@ public class Main extends BaseGabGame {
         engine.setCamera(camera);
         fpsCounter = new FPSCounter();
         engine.setFpsCounter(fpsCounter);
+        fpsCounter.isLogged(false);
     }
 
     @Override
@@ -163,6 +164,19 @@ public class Main extends BaseGabGame {
         //camera.addAction(new MoveToAction(0,0,500,500,5,false));
         camera.followEntity(testSprite);
         camera.addAction(new ZoomAction(1, 0.5f, 5, false));
+
+        Shape shape1 = ShapeCreator.createRectangle(300, 480, 100, 100);
+        shape1.attachOnTouchListener(new OnTouchListener() {
+            @Override
+            public void onTouch(float posX, float posY, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    camera.addAction(new ZoomAction(0.5f, 1f, 5, false));
+                    texture.deleteTexture();
+                }
+            }
+        });
+        shape1.setColor(0, 1, 0);
+        hud.attachChild(shape1);
         return scene;
     }
 

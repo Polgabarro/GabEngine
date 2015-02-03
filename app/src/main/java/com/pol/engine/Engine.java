@@ -10,6 +10,8 @@ import com.pol.entities.Scene;
 import com.pol.gabengine.BaseGabGame;
 import com.pol.graphics.FPSCounter;
 
+import java.util.ArrayList;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -28,10 +30,12 @@ public class Engine implements GLSurfaceView.Renderer {
     private float elapsedTime = 1L / 60L;
     private long lastTime = 0L;
     private FPSCounter fpsCounter = null;
+    private ArrayList<SafeUpdateListener> safeUpdateListeners;
 
 
     public Engine(BaseGabGame context) {
         this.context = context;
+        safeUpdateListeners = new ArrayList<SafeUpdateListener>();
         context.onLoadOptions(this);
     }
 
@@ -93,6 +97,7 @@ public class Engine implements GLSurfaceView.Renderer {
             /**
              * UPDATE
              */
+            executeSafeUpdateMethods();
             scene.update(elapsedTime);
             camera.update(elapsedTime);
             if (hud != null) {
@@ -120,6 +125,9 @@ public class Engine implements GLSurfaceView.Renderer {
     /**
      * PUBLIC METHODS
      */
+    public void setSafeOnThreadUpdate(SafeUpdateListener safeOnThreadUpdate) {
+        safeUpdateListeners.add(safeOnThreadUpdate);
+    }
 
     /**
      * @return the com.pol.camera of the engine
@@ -152,5 +160,15 @@ public class Engine implements GLSurfaceView.Renderer {
 
     public void removeHud() {
         this.hud = hud;
+    }
+
+    /**
+     * PRIVATE METHODS
+     */
+    private void executeSafeUpdateMethods() {
+        for (SafeUpdateListener safeUpdateListener : safeUpdateListeners) {
+            safeUpdateListener.onUpdate(elapsedTime);
+        }
+        safeUpdateListeners.clear();
     }
 }
