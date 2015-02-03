@@ -106,9 +106,7 @@ public class Engine implements GLSurfaceView.Renderer {
             /**
              * RENDER
              */
-            float[] color = scene.getBackground().getColor();
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-            GLES20.glClearColor(color[0], color[1], color[2], 1);
             scene.render(camera.getmVPMatrix());
             if (hud != null) {
                 hud.render(camera.getHudmVPMatrix());

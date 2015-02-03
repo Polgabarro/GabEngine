@@ -120,6 +120,7 @@ public class Shape extends Entity {
 
     @Override
     public void render(float[] mVPMatrix) {
+        if (!visible) return;
         //super.render(mVPMatrix);
         if (scaleX < 0 || scaleY < 0)
             GLES20.glDisable(GLES20.GL_CULL_FACE);

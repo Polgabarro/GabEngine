@@ -25,6 +25,7 @@ public class Entity {
     protected float scaleY = 1;
     protected boolean inHud = false;
     protected boolean inScene = false;
+    protected boolean visible = true;
     private int id;
     private float x = 0, y = 0, z = 0;
     private float rotation = 0;
@@ -164,7 +165,7 @@ public class Entity {
 
         if (updateListeners.size() != 0) {
             for (UpdateListener updateListener : updateListeners)
-            updateListener.update(elapsedTime);
+                updateListener.update(elapsedTime);
         }
 
         makeModelTransformations();
@@ -179,6 +180,8 @@ public class Entity {
 
 
     public void render(float[] mVPMatrix) {
+        if (!visible) return;
+
         int length = entities.size();
         for (int i = 0; i < length; i++) {
             entities.get(i).render(mVPMatrix);
@@ -236,6 +239,7 @@ public class Entity {
 
     /**
      * Remove an update Listener
+     *
      * @param updateListener
      * @return true if the remove is successful
      */
@@ -334,6 +338,21 @@ public class Entity {
         setScale(scale, scale);
     }
 
+    public float getRotation() {
+        return rotation;
+    }
+
+    /**
+     * Rotate the entity
+     *
+     * @param degrees
+     */
+    public void setRotation(float degrees) {
+        modelChanged = true;
+        setRotating(degrees);
+        this.rotation = degrees;
+    }
+
     /**
      * @return true if this entity is attached in Scene
      */
@@ -377,6 +396,23 @@ public class Entity {
             }
         }
     }
+
+    /**
+     * @return true if is visible
+     */
+    public boolean isVisible() {
+        return visible;
+    }
+
+    /**
+     * Set the entity visible or not
+     *
+     * @param visible
+     */
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
     /**
      * PRIVATE METHODS
      */
@@ -408,4 +444,8 @@ public class Entity {
         Matrix.scaleM(mScaleMatrix, 0, scaleX, scaleY, 1);
     }
 
+    private void setRotating(float degrees) {
+        Matrix.setIdentityM(mRotationMatrix, 0);
+        Matrix.setRotateM(mRotationMatrix, 0, degrees, 0, 0, 1);
+    }
 }

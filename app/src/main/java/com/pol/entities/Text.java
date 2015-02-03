@@ -15,12 +15,10 @@ import java.nio.FloatBuffer;
 /**
  * Created by Pol Gabarró<polgabarr@gmail.com> on 26/01/15.
  */
-public class Text extends Shape {
+public class Text extends Sprite {
     protected Font font;
     protected FloatBuffer uvBuffer;
     private String sText = "";
-    private int mTexture;
-    private int mUV;
     private float uvCords[];
     private int textLength;
 
@@ -58,6 +56,7 @@ public class Text extends Shape {
 
     @Override
     public void render(float[] mVPMatrix) {
+        if (!visible) return;
         if (sText.length() > 0) {
             if (scaleX < 0 || scaleY < 0)
                 GLES20.glDisable(GLES20.GL_CULL_FACE);

@@ -22,5 +22,8 @@ public abstract class TimeElapsedListener implements UpdateListener {
         }
     }
 
+    /**
+     * Run this method when pass a time
+     */
     public abstract void onTimeElapsed();
 }

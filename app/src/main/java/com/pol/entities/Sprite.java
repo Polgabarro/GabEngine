@@ -10,13 +10,18 @@ import com.pol.utils.CnsOpenGL;
  */
 public class Sprite extends Shape {
     protected Texture texture;
-    private int mTexture;
-    private int mUV;
+    protected int mTexture;
+    protected int mUV;
 
 
     /*
      * CONSTRUCTORS
      */
+    @Deprecated //NOT USE
+    protected Sprite(float x, float y) {
+        super(x, y);
+    }
+
     @Deprecated //NOT USE
     protected Sprite(float x, float y, Texture texture) {
         super(x, y);
@@ -32,7 +37,7 @@ public class Sprite extends Shape {
 
     @Override
     public void render(float[] mVPMatrix) {
-
+        if (!visible) return;
         if (scaleX < 0 || scaleY < 0)
             GLES20.glDisable(GLES20.GL_CULL_FACE);
 

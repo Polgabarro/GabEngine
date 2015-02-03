@@ -4,8 +4,9 @@ import android.view.MotionEvent;
 
 import com.pol.actions.MoveAction;
 import com.pol.actions.MoveToAction;
-import com.pol.actions.ParallelAction;
+import com.pol.actions.RotateAction;
 import com.pol.actions.ZoomAction;
+import com.pol.actions.easefunctions.EaseExponentialOut;
 import com.pol.camera.Camera;
 import com.pol.camera.CameraOrientation;
 import com.pol.engine.Engine;
@@ -138,8 +139,6 @@ public class Main extends BaseGabGame {
             }
         });
         testSprite.setScale(2);
-        ParallelAction actions = new ParallelAction(new MoveToAction(0, 0, 300, 50, 5, false));
-        testSprite.addAction(actions);
 
 
         Texture letter = font.getLetter('A');
@@ -177,6 +176,7 @@ public class Main extends BaseGabGame {
         });
         shape1.setColor(0, 1, 0);
         hud.attachChild(shape1);
+        testSprite.addAction(new RotateAction(0, 360, 1, true, EaseExponentialOut.getInstance()));
         return scene;
     }
 

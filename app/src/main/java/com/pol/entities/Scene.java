@@ -9,11 +9,19 @@ public class Scene extends Entity {
 
     private Background background;
 
+    /**
+     * Create a scene
+     */
     public Scene() {
         super(0, 0);
         background = new Background(0, 0, 0);
     }
 
+    /**
+     * Create a scene with a background
+     *
+     * @param background
+     */
     public Scene(Background background) {
         super(0, 0);
         this.background = background;
@@ -40,6 +48,14 @@ public class Scene extends Entity {
         super.attachChild(entities);
         for (Entity entity : entities) {
             entity.inScene = true;
+        }
+    }
+
+    public void render(float[] mVPMatrix) {
+        background.render(mVPMatrix);
+        int length = entities.size();
+        for (int i = 0; i < length; i++) {
+            entities.get(i).render(mVPMatrix);
         }
     }
 
