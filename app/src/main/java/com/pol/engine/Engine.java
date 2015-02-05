@@ -31,6 +31,7 @@ public class Engine implements GLSurfaceView.Renderer {
     private long lastTime = 0L;
     private FPSCounter fpsCounter = null;
     private ArrayList<SafeUpdateListener> safeUpdateListeners;
+    private boolean stop = false;
 
 
     public Engine(BaseGabGame context) {
@@ -98,8 +99,10 @@ public class Engine implements GLSurfaceView.Renderer {
              * UPDATE
              */
             executeSafeUpdateMethods();
-            scene.update(elapsedTime);
-            camera.update(elapsedTime);
+            if (!stop) {
+                scene.update(elapsedTime);
+                camera.update(elapsedTime);
+            }
             if (hud != null) {
                 hud.update(elapsedTime);
             }
@@ -158,6 +161,19 @@ public class Engine implements GLSurfaceView.Renderer {
 
     public void removeHud() {
         this.hud = hud;
+    }
+
+    /**
+     * Stop the engine
+     *
+     * @param stop
+     */
+    public void stop(boolean stop) {
+        this.stop = stop;
+    }
+
+    public boolean isStop() {
+        return stop;
     }
 
     /**

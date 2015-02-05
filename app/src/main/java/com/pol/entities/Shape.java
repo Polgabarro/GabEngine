@@ -193,6 +193,28 @@ public class Shape extends Entity {
         this.width = width;
     }
 
+    public float getScaledWith() {
+        return width * scaleX;
+    }
+
+    public float getScaledHeight() {
+        return height * scaleY;
+    }
+
+    /**
+     * @param shape
+     * @return true if this shape is in collision with
+     */
+    public boolean isCollisionWith(Shape shape) {
+
+        if ((getX() - getScaledWith() / 2) < (shape.getX() + shape.getScaledWith() / 2) && (getX() + getScaledWith() / 2) > (shape.getX() - shape.getScaledWith() / 2) &&
+                (getY() - getScaledHeight() / 2) < (shape.getY() + shape.getScaledHeight() / 2) && (getY() + getScaledHeight() / 2) > (shape.getY() - shape.getScaledHeight() / 2)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @return the shape height
      */

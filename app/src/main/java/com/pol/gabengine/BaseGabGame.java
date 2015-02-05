@@ -123,7 +123,7 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
         if (isOnTouchListener) {
             ((OnTouchListener) this).onTouch(event.getX() - engine.getCamera().getResolutionX() / 2f + engine.getCamera().getX(), -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f) + engine.getCamera().getY(), event);
         }
-        TouchManager.getInstance().detectTouchEvent(event.getX() - engine.getCamera().getResolutionX() / 2f, -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event, engine.getCamera());
+        TouchManager.getInstance().detectTouchEvent(event.getX() - engine.getCamera().getResolutionX() / 2f, -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event, engine);
 
         return false;
     }

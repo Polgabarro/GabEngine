@@ -2,7 +2,7 @@ package com.pol.managers;
 
 import android.view.MotionEvent;
 
-import com.pol.camera.Camera;
+import com.pol.engine.Engine;
 import com.pol.entities.Shape;
 
 import java.util.ArrayList;
@@ -41,11 +41,11 @@ public class TouchManager {
     }
 
 
-    public void detectTouchEvent(float posX, float posY, MotionEvent event, Camera camera) {
+    public void detectTouchEvent(float posX, float posY, MotionEvent event, Engine engine) {
 
-        float camX = camera.getX();
-        float camY = camera.getY();
-        float zoom = camera.getZoom();
+        float camX = engine.getCamera().getX();
+        float camY = engine.getCamera().getY();
+        float zoom = engine.getCamera().getZoom();
 
         for (Shape shape : shapesToucheables) {
 
@@ -53,7 +53,7 @@ public class TouchManager {
                 if (((shape.getX() + (shape.getWidth() * shape.getScaleX() / 2f) >= posX) && (shape.getX() - (shape.getWidth() * shape.getScaleX() / 2f) <= posX)) && ((shape.getY() + (shape.getHeight() * shape.getScaleY() / 2f) >= posY) && (shape.getY() - (shape.getHeight() * shape.getScaleY() / 2f) <= posY))) {
                     shape.getOnTouchListener().onTouch(posX, posY, event);
                 }
-            } else if (shape.isRootInScene()) {
+            } else if (shape.isRootInScene() && !engine.isStop()) {
                 if (((shape.getX() + (shape.getWidth() * shape.getScaleX() * zoom / 2f) >= posX + camX) && (shape.getX() - (shape.getWidth() * shape.getScaleX() * zoom / 2f) <= posX + camX)) && ((shape.getY() + (shape.getHeight() * shape.getScaleY() * zoom / 2f) >= posY + camY) && (shape.getY() - (shape.getHeight() * shape.getScaleY() * zoom / 2f) <= posY + camY))) {
                     shape.getOnTouchListener().onTouch(posX + camX, posY + camY, event);
                 }

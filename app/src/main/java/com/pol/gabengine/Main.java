@@ -132,12 +132,6 @@ public class Main extends BaseGabGame {
             }
         });
 
-        tank2.attachOnTouchListener(new OnTouchListener() {
-            @Override
-            public void onTouch(float posX, float posY, MotionEvent event) {
-                tank2.setPosition(posX, posY);
-            }
-        });
         testSprite.setScale(2);
 
 
@@ -164,13 +158,30 @@ public class Main extends BaseGabGame {
         camera.followEntity(testSprite);
         camera.addAction(new ZoomAction(1, 0.5f, 5, false));
 
-        Shape shape1 = ShapeCreator.createRectangle(300, 480, 100, 100);
+        final Shape shape1 = ShapeCreator.createRectangle(300, 480, 100, 100);
         shape1.attachOnTouchListener(new OnTouchListener() {
             @Override
             public void onTouch(float posX, float posY, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    camera.addAction(new ZoomAction(0.5f, 1f, 5, false));
-                    texture.deleteTexture();
+                    //camera.addAction(new ZoomAction(0.5f, 1f, 5, false));
+                    if (getEngine().isStop()) {
+                        getEngine().stop(false);
+                    } else {
+                        getEngine().stop(true);
+                    }
+
+                }
+            }
+        });
+        scene.attachChild(tank2);
+        tank2.addUpdateListener(new UpdateListener() {
+            @Override
+            public void update(float elapsedTime) {
+                if (tank2.isCollisionWith(testSprite)) {
+                    tank2.setColor(1, 0, 1);
+
+                } else {
+                    tank2.setColor(1, 1, 1);
                 }
             }
         });
