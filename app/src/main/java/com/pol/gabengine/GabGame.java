@@ -27,7 +27,7 @@ public abstract class GabGame extends BaseGabGame {
         return init();
     }
 
-    public abstract Scene config(Engine engine);
+    public abstract void config(Engine engine);
 
     public abstract Scene init();
 
