@@ -2,9 +2,11 @@ package com.pol.gabengine;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 
 import com.pol.engine.Engine;
@@ -28,12 +30,27 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
     private Engine engine;
     private GLSurfaceView mGLView;
     private boolean isOnTouchListener = false;
+    private int realScreenResolutionX, realScreenResolutionY;
+
+    private float ratioScreenX, ratioScreenY;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Init Shader
         init();
+        Display display = getWindowManager().getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point);
+
+        realScreenResolutionX = point.x;
+        realScreenResolutionY = point.y;
+
+
+
+
         mGLView = new GabGLSurface(this);
         mGLView.setEGLContextClientVersion(2);
         engine = new Engine(this);
@@ -51,6 +68,8 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
 
+        ratioScreenX = (float) engine.getCamera().getResolutionX() / (float) realScreenResolutionX;
+        ratioScreenY = (float) engine.getCamera().getResolutionY() / (float) realScreenResolutionY;
 
         if (this instanceof OnTouchListener) {
             isOnTouchListener = true;
@@ -121,9 +140,9 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (isOnTouchListener) {
-            ((OnTouchListener) this).onTouch(event.getX() - engine.getCamera().getResolutionX() / 2f + engine.getCamera().getX(), -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f) + engine.getCamera().getY(), event);
+            ((OnTouchListener) this).onTouch(event.getX() * ratioScreenX - engine.getCamera().getResolutionX() / 2f + engine.getCamera().getX(), -((event.getY() * ratioScreenY - statusBarSize) - engine.getCamera().getResolutionY() / 2f) + engine.getCamera().getY(), event);
         }
-        TouchManager.getInstance().detectTouchEvent(event.getX() - engine.getCamera().getResolutionX() / 2f, -((event.getY() - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event, engine);
+        TouchManager.getInstance().detectTouchEvent(event.getX() * ratioScreenX - engine.getCamera().getResolutionX() / 2f, -((event.getY() * ratioScreenY - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event, engine);
 
         return false;
     }

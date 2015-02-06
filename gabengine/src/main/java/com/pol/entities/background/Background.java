@@ -29,6 +29,7 @@ public class Background {
 
     /**
      * Create a background with a color
+     *
      * @param R red color
      * @param G green color
      * @param B blue color
@@ -59,6 +60,7 @@ public class Background {
 
     /**
      * Set a different color to the background
+     *
      * @param color
      */
     public void setColor(float[] color) {
@@ -76,8 +78,9 @@ public class Background {
     public void setSprite(Sprite sprite) {
         this.sprite = sprite;
         colorBackground = false;
-        spriteBackground=true;
+        spriteBackground = true;
     }
+
     public boolean isColorBackground() {
         return colorBackground;
     }
