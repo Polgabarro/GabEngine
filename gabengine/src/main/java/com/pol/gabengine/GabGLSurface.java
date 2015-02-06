@@ -9,7 +9,7 @@ import android.opengl.GLSurfaceView;
 public class GabGLSurface extends GLSurfaceView {
     public GabGLSurface(Context context) {
         super(context);
-
+        super.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 
     }
 }

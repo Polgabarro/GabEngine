@@ -62,11 +62,7 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
             System.exit(0);
         }
 
-        //mGLView.getHolder().setFixedSize(engine.getCamera().getResolutionX(), engine.getCamera().getResolutionY());
-
-        statusBarSize = getStatusBarHeight();/*
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
+        statusBarSize = getStatusBarHeight();
 
         ratioScreenX = (float) engine.getCamera().getResolutionX() / (float) realScreenResolutionX;
         ratioScreenY = (float) engine.getCamera().getResolutionY() / (float) realScreenResolutionY;
@@ -140,9 +136,9 @@ public abstract class BaseGabGame extends Activity implements GameInterface {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (isOnTouchListener) {
-            ((OnTouchListener) this).onTouch(event.getX() * ratioScreenX - engine.getCamera().getResolutionX() / 2f + engine.getCamera().getX(), -((event.getY() * ratioScreenY - statusBarSize) - engine.getCamera().getResolutionY() / 2f) + engine.getCamera().getY(), event);
+            ((OnTouchListener) this).onTouch(event.getX() * ratioScreenX - engine.getCamera().getResolutionX() / 2f + engine.getCamera().getX(), -(((event.getY() - statusBarSize) * ratioScreenY) - ((engine.getCamera().getResolutionY() - statusBarSize * ratioScreenY)) / 2f) + engine.getCamera().getY(), event);
         }
-        TouchManager.getInstance().detectTouchEvent(event.getX() * ratioScreenX - engine.getCamera().getResolutionX() / 2f, -((event.getY() * ratioScreenY - statusBarSize) - engine.getCamera().getResolutionY() / 2f), event, engine);
+        TouchManager.getInstance().detectTouchEvent(event.getX() * ratioScreenX - engine.getCamera().getResolutionX() / 2f, -(((event.getY() - statusBarSize) * ratioScreenY) - ((engine.getCamera().getResolutionY() - statusBarSize * ratioScreenY)) / 2f), event, engine);
 
         return false;
     }

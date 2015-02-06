@@ -1,11 +1,10 @@
 GabEngine
 =========
 
+Simple Native OpenGL Game Engine for Android. The easiest android game engine!
 
-Simple Native OpenGL Game Engine for Android
-
-NOTE: IS NOT FUNCTIONAL (TEST ONLY)
-===================================
+FIRST VERSION 0.1
+=================
 **Things that can do**
 
 * Draw Shapes
@@ -17,5 +16,7 @@ NOTE: IS NOT FUNCTIONAL (TEST ONLY)
 * Draw Text and load custom fonts!
 * A Camera that now is an entity! You can move and make things awesome
 * HUD on you can draw things!
+* Detect Basic collisions
 
+See the tutorial [here](http://creatuvideojuegoandroid.blogspot.com.es/) (spanish only)
 Wait for more improvements!
