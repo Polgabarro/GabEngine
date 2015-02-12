@@ -100,7 +100,7 @@ public class ShapeCreator {
      */
     public static Shape createCircle(float posX, float posY, float radius) {
 
-        int num_vertices = (int) (radius / 4f);
+        int num_vertices = (int) (radius / 4f) * 10;
         return createShape(createPolygon(posX, posY, num_vertices, radius));
     }
 
