@@ -68,6 +68,18 @@ public class Shape extends Entity {
     }
 
     /**
+     * Change the entity color
+     *
+     * @param color is the color
+
+     */
+    public void setColor(float[] color) {
+        this.color[0] = color[0];
+        this.color[1] = color[1];
+        this.color[2] = color[2];
+    }
+
+    /**
      * @return the alpha
      */
     public float getAlpha() {

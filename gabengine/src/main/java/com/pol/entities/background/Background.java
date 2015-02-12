@@ -71,6 +71,21 @@ public class Background {
     }
 
     /**
+     * Change the background color
+     *
+     * @param R is the red component of the color
+     * @param G is the green component of the color
+     * @param B is the blue component of the color
+     */
+    public void setColor(float R, float G, float B) {
+        float[] color = new float[3];
+        color[0] = R;
+        color[1] = G;
+        color[2] = B;
+        setColor(color);
+    }
+
+    /**
      * Set a different sprite to the background
      *
      * @param sprite
@@ -96,5 +111,4 @@ public class Background {
             sprite.render(mVPMatrix);
         }
     }
-
 }
