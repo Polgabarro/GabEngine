@@ -12,12 +12,30 @@ public class ListAction extends Action {
 
     private ArrayList<Action> actions;
     private int actionNum = 0;
+    private boolean loop = false;
 
-
+    /**
+     * Create a Action list of entities
+     *
+     * @param actions
+     */
     public ListAction(Action... actions) {
         this.actions = new ArrayList<Action>(Arrays.asList(actions));
         finished = false;
 
+
+    }
+
+    /**
+     * Create a Action list of entities
+     *
+     * @param loop    true if is a loop
+     * @param actions
+     */
+    public ListAction(boolean loop, Action... actions) {
+        this.actions = new ArrayList<Action>(Arrays.asList(actions));
+        finished = false;
+        this.loop = loop;
     }
 
     @Override
@@ -29,6 +47,14 @@ public class ListAction extends Action {
                 actionNum++;
                 if (actionNum >= actions.size()) {
                     finished = true;
+                    if (loop) {
+                        actionNum = 0;
+                        finished = false;
+                        for (Action action : actions) {
+                            action.reset();
+                        }
+                        return false;
+                    }
                     return true;
                 }
                 return false;

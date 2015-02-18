@@ -11,10 +11,28 @@ import java.util.Arrays;
 public class ParallelAction extends Action {
 
     private ArrayList<Action> actions;
+    private boolean loop = false;
 
+    /**
+     * Create a parallel action
+     *
+     * @param actions
+     */
     public ParallelAction(Action... actions) {
         this.actions = new ArrayList<Action>(Arrays.asList(actions));
         finished = false;
+    }
+
+    /**
+     * Create a parallel action
+     *
+     * @param loop    true if is a loop
+     * @param actions
+     */
+    public ParallelAction(boolean loop, Action... actions) {
+        this.actions = new ArrayList<Action>(Arrays.asList(actions));
+        finished = false;
+        this.loop = loop;
     }
 
     @Override
@@ -23,6 +41,12 @@ public class ParallelAction extends Action {
             for (Action action : actions) {
                 action.update(elapsedTime);
                 finished = action.finished & finished;
+            }
+            if (loop && finished) {
+                finished = false;
+                for (Action action : actions) {
+                    action.reset();
+                }
             }
             return finished;
         } else {
