@@ -15,7 +15,7 @@ FIRST VERSION 0.1
 * Touchable sprites and shapes!
 * Draw Text and load custom fonts!
 * A Camera that now is an entity! You can move and make things awesome
-* HUD on you can draw things!
+* HUD where you can draw things!
 * Detect Basic collisions
 
 See the tutorial [here](http://creatuvideojuegoandroid.blogspot.com.es/) (spanish only)
